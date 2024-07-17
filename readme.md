@@ -1,12 +1,12 @@
 # Components
 
 ```
-yarn add @fadeev/swap
+yarn add @zeta-chain/universalkit
 ```
 
 Should be compatible with a RainbowKit enabled Next.js app, for example:
 
-https://github.com/fadeev/template
+https://github.com/zeta-chain/next-template
 
 Adding a swap component to a app-router Next.js app:
 
@@ -18,7 +18,7 @@ import {
   Balances,
   useEthersSigner,
   useZetaChainClient,
-} from "@fadeev/swap/dist";
+} from "@zeta-chain/universalkit";
 import { useAccount, useSwitchChain, useChainId, useWalletClient } from "wagmi";
 
 // universal swap app contract on ZetaChain
