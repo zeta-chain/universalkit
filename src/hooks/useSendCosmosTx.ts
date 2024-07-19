@@ -33,7 +33,7 @@ const useSendCosmosTx = (address: string, client: any) => {
         const accountResponse = await fetch(url);
         const accountData = await accountResponse.json();
         const { account } = accountData;
-        const { sequence, account_number } = account?.base_account;
+        const { sequence, account_number } = account?.base_account || {};
         const pubkey = account?.base_account.pub_key.key;
 
         const chain = { chainId: 7001, cosmosChainId: "athens_7001-1" };
