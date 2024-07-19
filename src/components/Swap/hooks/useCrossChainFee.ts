@@ -5,7 +5,7 @@ import { ethers, utils } from "ethers";
 
 import { computeSendType } from "./computeSendType";
 
-import { roundNumber } from "../lib/utils";
+import { roundNumber } from "@/lib/utils";
 import type { CrossChainFee, Token } from "./types";
 
 const useCrossChainFee = (

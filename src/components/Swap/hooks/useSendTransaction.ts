@@ -103,7 +103,7 @@ const useSendTransaction = (
     const dest = address.replace(/^0x/, "");
     const withdrawFlag = withdraw ? "00" : "01";
     const memo = `hex::${contract}${zrc20}${dest}${withdrawFlag}`;
-    window.xfi.bitcoin.request(
+    (window as any).xfi.bitcoin.request(
       bitcoinXDEFITransfer(bitcoinAddress, bitcoinTSSAddress, a, memo),
       (error: any, hash: any) => {
         if (!error && track) {
@@ -132,7 +132,7 @@ const useSendTransaction = (
     const a = parseFloat(sourceAmount) * 1e8;
     const bitcoinTSSAddress = "tb1qy9pqmk2pd9sv63g27jt8r657wy0d9ueeh0nqur";
     const memo = `hex::${address.replace(/^0x/, "")}`;
-    window.xfi.bitcoin.request(
+    (window as any).xfi.bitcoin.request(
       bitcoinXDEFITransfer(bitcoinAddress, bitcoinTSSAddress, a, memo),
       (error: any, hash: any) => {
         if (!error && track) {
@@ -420,7 +420,7 @@ const useSendTransaction = (
     }
     const a = parseFloat(sourceAmount) * 1e8;
     const memo = "";
-    window.xfi.bitcoin.request(
+    (window as any).xfi.bitcoin.request(
       bitcoinXDEFITransfer(bitcoinAddress, addressSelected, a, memo)
     );
   };

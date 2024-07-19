@@ -1,5 +1,5 @@
 {
-  "name": "@zeta-chain/universalkit",
+  "name": "@zetachain/universalkit",
   "private": false,
   "version": "1.0.0",
   "scripts": {
@@ -11,6 +11,8 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@evmos/provider": "0.3.1",
+    "@evmos/transactions": "0.2.10",
     "@openzeppelin/contracts": "^5.0.2",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
@@ -37,8 +39,7 @@
     "react-dom": "^18.3.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "viem": "2.9.31",
-    "wagmi": "^2.9.2"
+    "wagmi": "^2.11.2"
   },
   "devDependencies": {
     "@types/node": "^18.19.3",

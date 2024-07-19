@@ -12,6 +12,7 @@ export const useZetaChainClient = (params: any) => {
 
     const initializeClient = async () => {
       try {
+        // @ts-ignore
         const { ZetaChainClient } = await import("@zetachain/toolkit/client");
         const zetaClient = new ZetaChainClient(memoizedParams);
 
