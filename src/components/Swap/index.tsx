@@ -11,7 +11,7 @@ import useSendTransaction from "./hooks/useSendTransaction";
 import { computeSendType, sendTypeDetails } from "./hooks/computeSendType";
 import useSwapErrors from "./hooks/useSwapErrors";
 import useTokenSelection from "./hooks/useTokenSelection";
-import { formatAddress } from "./lib/utils";
+import { formatAddress } from "@/lib/utils";
 
 interface SwapProps {
   contract: string;

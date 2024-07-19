@@ -3,11 +3,7 @@ import { createWeb3Name } from "@web3-name-sdk/core";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ethers } from "ethers";
-
-const formatAddress = (address: string) => {
-  if (!address) return "";
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-};
+import { formatAddress } from "@/lib/utils";
 
 export const Profile = ({ address }: { address: any }) => {
   const [record, setRecord] = useState<any>();

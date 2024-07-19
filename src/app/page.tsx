@@ -4,6 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   Swap,
   Balances,
+  StakingRewards,
   Profile,
   useZetaChainClient,
   useEthersSigner,
@@ -30,11 +31,12 @@ const Page = () => {
         <div className="w-[400px]">
           {client && (
             <div className="flex flex-col gap-10 ">
-              <Balances client={client} account={account}></Balances>
+              <StakingRewards client={client} account={account} />
+              {/* <Balances client={client} account={account}></Balances>
               <Swap client={client} account={account} contract={contract} />
               <div className="flex justify-center">
                 <Profile address="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045" />
-              </div>
+              </div> */}
             </div>
           )}
         </div>

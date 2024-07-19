@@ -6,7 +6,7 @@ import { utils } from "ethers";
 import debounce from "lodash/debounce";
 import { computeSendType } from "./computeSendType";
 
-import { roundNumber } from "../lib/utils";
+import { roundNumber } from "@/lib/utils";
 import type { Balance, CrossChainFee, Token } from "./types";
 
 const useDestinationAmount = (
