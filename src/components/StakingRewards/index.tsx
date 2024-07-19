@@ -80,8 +80,7 @@ export const StakingRewards = ({ client, account }: any) => {
   }, [account.address]);
 
   const stakingAmountTotal =
-    stakingDelegations &&
-    stakingDelegations.reduce((a: any, c: any) => {
+    stakingDelegations?.reduce((a: any, c: any) => {
       const amount = BigInt(c.balance.amount);
       return a + amount;
     }, BigInt(0));
