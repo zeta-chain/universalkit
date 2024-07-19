@@ -42,5 +42,9 @@ export const hexToBech32Address = (address: string, prefix: string): string => {
   }
   const data = Buffer.from(address.substr(2), "hex");
   const words = bech32.toWords(data);
-  return bech32.encode(prefix, words);
+  try {
+    return bech32.encode(prefix, words);
+  } catch (e) {
+    throw new Error("Failed to encode Bech32 address");
+  }
 };
