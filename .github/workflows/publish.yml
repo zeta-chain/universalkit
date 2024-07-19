@@ -29,13 +29,11 @@ jobs:
         run: |
           VERSION_TAG=${GITHUB_REF#refs/tags/v}
           if [[ $VERSION_TAG == *"-"* ]]; then
-            echo ::set-output name=NPM_TAG::${VERSION_TAG#*-}
+            echo "NPM_TAG=${VERSION_TAG#*-}" >> $GITHUB_ENV
           else
-            echo ::set-output name=NPM_TAG::latest
-          fi
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
         env:
           GITHUB_REF: ${{ github.ref }}
-
       - name: Publish to NPM
         run: yarn publish --new-version ${GITHUB_REF#refs/tags/v} --tag ${{
           steps.determine-npm-tag.outputs.NPM_TAG }} --no-git-tag-version
