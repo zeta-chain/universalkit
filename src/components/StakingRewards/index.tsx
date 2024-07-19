@@ -103,6 +103,10 @@ export const StakingRewards = ({ client, account }: any) => {
     try {
       setLoading(true);
       const addr = hexToBech32Address(account.address, "zeta");
+      if (!addr) {
+        console.error("Invalid address");
+        return;
+      }
       const url = `${api}/cosmos/distribution/v1beta1/delegators/${addr}/rewards`;
       const response = await fetch(url);
       const stakingRewards = await response.json();
