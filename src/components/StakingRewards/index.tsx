@@ -10,6 +10,9 @@ import { roundNumber } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const hexToBech32Address = (address: string, prefix: string): string => {
+  if (!address || !address.startsWith("0x")) {
+    throw new Error("Invalid hex address");
+  }
   const data = Buffer.from(address.substr(2), "hex");
   const words = bech32.toWords(data);
   return bech32.encode(prefix, words);
