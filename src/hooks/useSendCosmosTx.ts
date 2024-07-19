@@ -15,8 +15,8 @@ export const hexToBech32Address = (address: string, prefix: string): string => {
 
 const useSendCosmosTx = (address: string, client: any) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [response, setResponse] = useState(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [response, setResponse] = useState<any>(null);
 
   const sendCosmosTx = useCallback(
     async (params: any, createTxFunction: any, customFee: any) => {
