@@ -1,7 +1,7 @@
 {
   "name": "@zetachain/universalkit",
   "private": false,
-  "version": "1.0.0",
+  "version": "version-set-on-publish",
   "scripts": {
     "dev": "next dev",
     "build": "npx vite build",
@@ -12,12 +12,11 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.cjs.js"
+      "import": "./dist/index.js"
     }
   },
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
     "@evmos/provider": "0.3.1",
@@ -41,8 +40,6 @@
     "ethers": "v5",
     "lodash": "^4.17.21",
     "lucide-react": "^0.408.0",
-    "next": "^14.2.3",
-    "next-themes": "^0.3.0",
     "postcss": "^8.4.39",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",

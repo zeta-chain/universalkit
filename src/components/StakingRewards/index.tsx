@@ -1,11 +1,9 @@
-import { bech32 } from "bech32";
 import { createTxMsgMultipleWithdrawDelegatorReward } from "@evmos/transactions";
 import useSendCosmosTx from "@/hooks/useSendCosmosTx";
 import { useEffect, useState } from "react";
 import { formatUnits } from "viem";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Gift, LoaderCircle } from "lucide-react";
 import { roundNumber, hexToBech32Address } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
