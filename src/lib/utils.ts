@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { bech32 } from "bech32";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -33,4 +34,13 @@ export const roundNumber = (value: number): string => {
 
 export const formatAddress = (address: string) => {
   return `${address.slice(0, 4)}...${address.slice(-4)}`;
+};
+
+export const hexToBech32Address = (address: string, prefix: string): string => {
+  if (!address || !address.startsWith("0x")) {
+    throw new Error("Invalid hex address");
+  }
+  const data = Buffer.from(address.substr(2), "hex");
+  const words = bech32.toWords(data);
+  return bech32.encode(prefix, words);
 };

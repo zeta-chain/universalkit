@@ -5,16 +5,7 @@ import {
   signatureToWeb3Extension,
 } from "@evmos/transactions";
 import { generatePostBodyBroadcast } from "@evmos/provider";
-import { bech32 } from "bech32";
-
-export const hexToBech32Address = (address: string, prefix: string): string => {
-  if (!address || !address.startsWith("0x")) {
-    throw new Error("Invalid hex address");
-  }
-  const data = Buffer.from(address.substr(2), "hex");
-  const words = bech32.toWords(data);
-  return bech32.encode(prefix, words);
-};
+import { hexToBech32Address } from "@/lib/utils";
 
 const useSendCosmosTx = (address: string, client: any) => {
   const [loading, setLoading] = useState(false);

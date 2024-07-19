@@ -6,17 +6,8 @@ import { formatUnits } from "viem";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Gift, LoaderCircle } from "lucide-react";
-import { roundNumber } from "@/lib/utils";
+import { roundNumber, hexToBech32Address } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
-
-export const hexToBech32Address = (address: string, prefix: string): string => {
-  if (!address || !address.startsWith("0x")) {
-    throw new Error("Invalid hex address");
-  }
-  const data = Buffer.from(address.substr(2), "hex");
-  const words = bech32.toWords(data);
-  return bech32.encode(prefix, words);
-};
 
 export const StakingRewards = ({ client, account }: any) => {
   const { sendCosmosTx } = useSendCosmosTx(account.address, client);
@@ -82,11 +73,10 @@ export const StakingRewards = ({ client, account }: any) => {
     if (account.address) fetchData();
   }, [account.address]);
 
-  const stakingAmountTotal =
-    stakingDelegations?.reduce((a: any, c: any) => {
-      const amount = BigInt(c.balance.amount);
-      return a + amount;
-    }, BigInt(0));
+  const stakingAmountTotal = stakingDelegations?.reduce((a: any, c: any) => {
+    const amount = BigInt(c.balance.amount);
+    return a + amount;
+  }, BigInt(0));
 
   const unbondingDelegationsTotal =
     unbondingDelegations &&
