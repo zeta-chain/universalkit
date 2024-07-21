@@ -53,7 +53,7 @@ export const ConnectBitcoin = () => {
             {formatAddress(account as string)}
           </Button>
         </DialogTrigger>
-        <DialogContent className="p-4 sm:max-w-[400px] bg-zinc-100 border-white">
+        <DialogContent className="p-5 sm:max-w-[400px] bg-zinc-100 border-white shadow-xl">
           <div className="font-rounded text-[18px] font-[800] text-center">
             {formatAddress(account as string)}
           </div>
@@ -90,13 +90,13 @@ export const ConnectBitcoin = () => {
         <DialogTrigger asChild>
           <Button
             variant="ghost"
-            className="mx-2 bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
+            className="mx-2 bg-white hover:bg-white font-rounded text-zinc-800 font-extrabold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
           >
             Connect Bitcoin
           </Button>
         </DialogTrigger>
-        <DialogContent className="p-4 sm:max-w-[400px]">
-          <DialogTitle className="font-rounded font-bold">
+        <DialogContent className="p-5 sm:max-w-[400px]">
+          <DialogTitle className="font-rounded font-extrabold tracking-normal">
             Connect a Bitcoin Wallet
           </DialogTitle>
           <div className="flex gap-2 justify-between pt-5 px-2 items-start">
