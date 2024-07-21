@@ -2,10 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -17,7 +17,19 @@ module.exports = {
       },
     },
     extend: {
+      scale: {
+        1025: "1.025",
+      },
+      fontFamily: {
+        rounded: ["SFRounded", "ui-rounded", "SF Pro Rounded", "sans-serif"],
+      },
+      boxShadow: {
+        rainbowkit: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+        xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);",
+        "2xl": "0 10px 50px -12px rgb(0 0 0 / 0.25);",
+      },
       colors: {
+        bitcoin: "#f89414",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -74,4 +86,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

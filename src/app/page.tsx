@@ -6,6 +6,7 @@ import {
   Balances,
   StakingRewards,
   Profile,
+  ConnectBitcoin,
   useZetaChainClient,
   useEthersSigner,
 } from "@/index";
@@ -25,13 +26,14 @@ const Page = () => {
     <div className="m-4">
       <div className="flex justify-end gap-2 mb-10">
         <ThemeToggle />
-        <ConnectButton />
+        <ConnectBitcoin />
+        <ConnectButton label="Connect EVM" showBalance={false} />
       </div>
       <div className="flex justify-center">
         <div className="w-[400px]">
           {client && (
             <div className="flex flex-col gap-10 ">
-              <StakingRewards client={client} account={account} />
+              {/* <StakingRewards client={client} account={account} /> */}
               {/* <Balances client={client} account={account}></Balances>
               <Swap client={client} account={account} contract={contract} />
               <div className="flex justify-center">
