@@ -48,19 +48,19 @@ export const ConnectBitcoin = () => {
         <DialogTrigger asChild>
           <Button
             variant="ghost"
-            className="mx-2 bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
+            className="mx-2 dark:hover:text-primary-foreground bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
           >
             {formatAddress(account as string)}
           </Button>
         </DialogTrigger>
-        <DialogContent className="p-5 sm:max-w-[400px] bg-zinc-100 border-white shadow-xl">
+        <DialogContent className="p-5 sm:max-w-[400px] light:bg-zinc-100 light:border-white shadow-xl">
           <div className="font-rounded text-[18px] font-[800] text-center">
             {formatAddress(account as string)}
           </div>
           <div className="flex gap-2 ">
             <Button
               onClick={(e) => copyToClipboard(account as string, e)}
-              className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover bg-white hover:bg-zinc-50 hover:scale-1025 transition-all"
+              className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover dark:bg-zinc-900 light:bg-white light:hover:bg-zinc-50 hover:scale-1025 transition-all"
               variant="ghost"
             >
               {copyStatus ? (
@@ -72,7 +72,7 @@ export const ConnectBitcoin = () => {
             </Button>
             <Button
               onClick={disconnect}
-              className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-rounded text-sm hover bg-white hover:bg-zinc-50 hover:scale-1025 transition-all"
+              className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-rounded text-sm hover light:bg-white light:hover:bg-zinc-50 dark:bg-zinc-900 hover:scale-1025 transition-all"
               variant="ghost"
             >
               <LogOut className="w-4 h-4 m-1" strokeWidth="2.5" />
@@ -90,13 +90,13 @@ export const ConnectBitcoin = () => {
         <DialogTrigger asChild>
           <Button
             variant="ghost"
-            className="mx-2 bg-white hover:bg-white font-rounded text-zinc-800 font-extrabold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
+            className="mx-2 dark:hover:text-primary-foreground bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
           >
             Connect Bitcoin
           </Button>
         </DialogTrigger>
         <DialogContent className="p-5 sm:max-w-[400px]">
-          <DialogTitle className="font-rounded font-extrabold tracking-normal">
+          <DialogTitle className="pt-1 font-rounded font-extrabold tracking-normal">
             Connect a Bitcoin Wallet
           </DialogTitle>
           <div className="flex gap-2 justify-between pt-5 px-2 items-start">
