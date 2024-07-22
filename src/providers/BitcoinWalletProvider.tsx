@@ -2,30 +2,30 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export type WalletType = "unisat" | "okx" | "xdefi";
 
-interface AccountContextProps {
-  account: string | null;
+interface WalletContextProps {
+  address: string | null;
   loading: { isLoading: boolean; walletType: WalletType | null };
   connectWallet: (walletType: WalletType) => void;
   disconnect: () => void;
 }
 
-const AccountContext = createContext<AccountContextProps | undefined>(
+const BitcoinWalletContext = createContext<WalletContextProps | undefined>(
   undefined
 );
 
-export const BitcoinAccountProvider = ({
+export const BitcoinWalletProvider = ({
   children,
 }: {
   children: ReactNode;
 }) => {
-  const [account, setAccount] = useState<string | null>(null);
+  const [address, setAddress] = useState<string | null>(null);
   const [loading, setLoading] = useState<{
     isLoading: boolean;
     walletType: WalletType | null;
   }>({ isLoading: false, walletType: null });
 
   const connectWallet = async (walletType: WalletType) => {
-    setAccount(null);
+    setAddress(null);
     let wallet;
 
     switch (walletType) {
@@ -46,20 +46,20 @@ export const BitcoinAccountProvider = ({
     if (wallet) {
       setLoading({ isLoading: true, walletType });
       try {
-        let account;
+        let address;
         switch (walletType) {
           case "unisat":
-            account = (await wallet.requestAccounts())[0];
+            address = (await wallet.requestAccounts())[0];
             break;
           case "okx":
-            account = (await wallet.bitcoinTestnet.connect()).address;
+            address = (await wallet.bitcoinTestnet.connect()).address;
             break;
           case "xdefi":
             wallet.bitcoin.changeNetwork("testnet");
-            account = (await wallet?.bitcoin?.getAccounts())[0];
+            address = (await wallet?.bitcoin?.getAccounts())[0];
             break;
         }
-        setAccount(account);
+        setAddress(address);
       } catch (error) {
         console.error(`Connection to ${walletType} wallet failed:`, error);
       } finally {
@@ -69,23 +69,23 @@ export const BitcoinAccountProvider = ({
   };
 
   const disconnect = () => {
-    setAccount(null);
+    setAddress(null);
   };
 
   return (
-    <AccountContext.Provider
-      value={{ account, loading, connectWallet, disconnect }}
+    <BitcoinWalletContext.Provider
+      value={{ address, loading, connectWallet, disconnect }}
     >
       {children}
-    </AccountContext.Provider>
+    </BitcoinWalletContext.Provider>
   );
 };
 
-export const useBitcoinAccount = () => {
-  const context = useContext(AccountContext);
+export const useBitcoinWallet = () => {
+  const context = useContext(BitcoinWalletContext);
   if (!context) {
     throw new Error(
-      "useBitcoinAccount must be used within a BitcoinAccountProvider"
+      "useBitcoinWallet must be used within a BitcoinWalletProvider"
     );
   }
   return context;

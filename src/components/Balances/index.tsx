@@ -16,15 +16,17 @@ interface Token {
 
 interface BalancesProps {
   client: {
-    getBalances: (params: { evmAddress: string }) => Promise<Token[]>;
+    getBalances: (params: any) => Promise<Token[]>;
   };
   account: any;
+  bitcoin?: string | undefined;
   onBalanceClick?: (balance: Token) => void;
 }
 
 export const Balances = ({
   client,
   account,
+  bitcoin,
   onBalanceClick = () => {},
 }: BalancesProps) => {
   const [balances, setBalances] = useState<Token[]>([]);
@@ -37,7 +39,11 @@ export const Balances = ({
   const fetchBalances = async (reloading = false) => {
     if (reloading) setIsReloading(true);
     try {
-      const result = await client.getBalances({ evmAddress: address });
+      const result = await client.getBalances({
+        evmAddress: address,
+        btcAddress: bitcoin,
+      });
+      console.log(result);
       setBalances(result);
     } catch (err: any) {
       setError(err.message);
@@ -94,7 +100,7 @@ export const Balances = ({
   );
 
   const ChainFilter = (
-    <div className="relative overflow-x-auto scrollbar-hide px-2">
+    <div className="relative overflow-x-auto scrollbar-hide px-2 mr-2">
       <div className="flex">
         {uniqueChains.map((chain) => (
           <Button

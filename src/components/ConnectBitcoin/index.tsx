@@ -3,9 +3,9 @@
 import React, { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  useBitcoinAccount,
+  useBitcoinWallet,
   WalletType,
-} from "@/providers/BitcoinAccountProvider";
+} from "@/providers/BitcoinWalletProvider";
 import { Copy, LogOut, Check, LoaderCircle } from "lucide-react";
 import {
   Dialog,
@@ -71,7 +71,7 @@ const WalletButton = React.memo(
   )
 );
 
-const Details = React.memo(({ account, disconnect }: any) => {
+const Details = React.memo(({ address, disconnect }: any) => {
   const [copyStatus, setCopyStatus] = useState(false);
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
 
@@ -94,16 +94,16 @@ const Details = React.memo(({ account, disconnect }: any) => {
           variant="ghost"
           className="mx-2 dark:hover:text-primary-foreground bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
         >
-          {formatAddress(account as string)}
+          {formatAddress(address as string)}
         </Button>
       </DialogTrigger>
       <DialogContent className="p-5 sm:max-w-[400px] bg-zinc-100 dark:bg-background light:border-white shadow-xl">
         <div className="font-rounded text-[18px] font-[800] text-center">
-          {formatAddress(account as string)}
+          {formatAddress(address as string)}
         </div>
         <div className="flex gap-2 ">
           <Button
-            onClick={(e) => copyToClipboard(account as string, e)}
+            onClick={(e) => copyToClipboard(address as string, e)}
             className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover dark:bg-zinc-900 bg-white hover:bg-zinc-50 hover:scale-1025 transition-all"
             variant="ghost"
           >
@@ -172,13 +172,13 @@ const Connect = React.memo(({ connectWallet, loading }: any) => {
 });
 
 export const ConnectBitcoin = () => {
-  const { account, loading, connectWallet, disconnect } = useBitcoinAccount();
+  const { address, loading, connectWallet, disconnect } = useBitcoinWallet();
   const modalComponent = useMemo(() => {
-    if (account) {
-      return <Details account={account} disconnect={disconnect} />;
+    if (address) {
+      return <Details account={address} disconnect={disconnect} />;
     }
     return <Connect connectWallet={connectWallet} loading={loading} />;
-  }, [account, loading, connectWallet, disconnect]);
+  }, [address, loading, connectWallet, disconnect]);
 
   return <div>{modalComponent}</div>;
 };
