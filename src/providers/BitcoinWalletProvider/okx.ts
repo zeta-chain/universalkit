@@ -21,7 +21,7 @@ export default {
     const txHash = await wallet.bitcoinTestnet.send({
       from: account.address,
       to,
-      value: value / 1e8,
+      value: value * 1e8,
       memo: `0x${memo}`,
       memoPos: 1,
     });

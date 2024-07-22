@@ -18,7 +18,7 @@ export default {
   ) => {
     await wallet.requestAccounts();
     const memos = [memo.toLowerCase()];
-    const tx = await wallet.sendBitcoin(to, value, { memos });
+    const tx = await wallet.sendBitcoin(to, value * 1e8, { memos });
     return tx;
   },
 };

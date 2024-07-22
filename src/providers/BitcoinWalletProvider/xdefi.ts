@@ -28,13 +28,14 @@ export default {
           from: account,
           recipient: to,
           amount: {
-            amount: value,
+            amount: value * 1e8,
             decimals: 8,
           },
           memo: `hex::${memo}`,
         },
       ],
     };
+    console.log(tx);
     return new Promise((resolve, reject) => {
       wallet.bitcoin.request(tx, (err: Error, res: Response) => {
         if (err) {
