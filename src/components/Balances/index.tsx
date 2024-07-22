@@ -19,7 +19,7 @@ interface BalancesProps {
     getBalances: (params: any) => Promise<Token[]>;
   };
   account: any;
-  bitcoin?: string | undefined;
+  bitcoin?: string | null;
   onBalanceClick?: (balance: Token) => void;
 }
 

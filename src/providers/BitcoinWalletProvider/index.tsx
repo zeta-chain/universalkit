@@ -1,6 +1,15 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { unisatWallet } from "./unisat";
+import { okxWallet } from "./okx";
+import { xdefiWallet } from "./xdefi";
 
-export type WalletType = "unisat" | "okx" | "xdefi";
+export const walletTypes = {
+  unisat: unisatWallet,
+  okx: okxWallet,
+  xdefi: xdefiWallet,
+};
+
+export type WalletType = keyof typeof walletTypes;
 
 interface WalletContextProps {
   address: string | null;
@@ -26,45 +35,21 @@ export const BitcoinWalletProvider = ({
 
   const connectWallet = async (walletType: WalletType) => {
     setAddress(null);
-    let wallet;
-
-    switch (walletType) {
-      case "unisat":
-        wallet = (window as any).unisat;
-        break;
-      case "okx":
-        wallet = (window as any).okxwallet;
-        break;
-      case "xdefi":
-        wallet = (window as any).xfi;
-        break;
-      default:
-        console.error("Unsupported wallet type");
-        return;
-    }
+    const walletConfig = walletTypes[walletType];
+    const wallet = (window as any)[walletConfig.name];
 
     if (wallet) {
       setLoading({ isLoading: true, walletType });
       try {
-        let address;
-        switch (walletType) {
-          case "unisat":
-            address = (await wallet.requestAccounts())[0];
-            break;
-          case "okx":
-            address = (await wallet.bitcoinTestnet.connect()).address;
-            break;
-          case "xdefi":
-            wallet.bitcoin.changeNetwork("testnet");
-            address = (await wallet?.bitcoin?.getAccounts())[0];
-            break;
-        }
+        const address = await walletConfig.getAddress(wallet);
         setAddress(address);
       } catch (error) {
-        console.error(`Connection to ${walletType} wallet failed:`, error);
+        console.error(`Connection to ${walletConfig.label} failed:`, error);
       } finally {
         setLoading({ isLoading: false, walletType: null });
       }
+    } else {
+      console.error("Unsupported wallet type");
     }
   };
 
