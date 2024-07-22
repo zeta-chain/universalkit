@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
+export type WalletType = "unisat" | "okx" | "xdefi";
+
 interface AccountContextProps {
   account: string | null;
   isLoading: boolean;
-  connectWallet: (walletType: "unisat" | "okx" | "xdefi") => void;
+  connectWallet: (walletType: WalletType) => void;
   disconnect: () => void;
 }
 
@@ -19,7 +21,7 @@ export const BitcoinAccountProvider = ({
   const [account, setAccount] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const connectWallet = async (walletType: "unisat" | "okx" | "xdefi") => {
+  const connectWallet = async (walletType: WalletType) => {
     setAccount(null);
     let wallet;
 

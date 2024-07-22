@@ -2,7 +2,10 @@
 
 import React, { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { useBitcoinAccount } from "@/providers/BitcoinAccountProvider";
+import {
+  useBitcoinAccount,
+  WalletType,
+} from "@/providers/BitcoinAccountProvider";
 import { Copy, LogOut, Check } from "lucide-react";
 import {
   Dialog,
@@ -102,7 +105,7 @@ const Connect = React.memo(({ connectWallet, isLoading }: any) => {
             disabled={isLoading}
             variant="link"
             size="icon"
-            className="active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
+            className="filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
           >
             <Image
               className="rounded-xl"
@@ -118,7 +121,7 @@ const Connect = React.memo(({ connectWallet, isLoading }: any) => {
             disabled={isLoading}
             variant="link"
             size="icon"
-            className="active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
+            className="filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
           >
             <Image
               className="rounded-xl"
@@ -134,7 +137,7 @@ const Connect = React.memo(({ connectWallet, isLoading }: any) => {
             disabled={isLoading}
             variant="link"
             size="icon"
-            className="active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
+            className="filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
           >
             <Image
               className="rounded-xl"
@@ -160,5 +163,10 @@ export const ConnectBitcoin = () => {
     return <Connect connectWallet={connectWallet} isLoading={isLoading} />;
   }, [account, isLoading, connectWallet, disconnect]);
 
-  return <div>{modalComponent}</div>;
+  return (
+    <div>
+      {/* Other parent content */}
+      {modalComponent}
+    </div>
+  );
 };
