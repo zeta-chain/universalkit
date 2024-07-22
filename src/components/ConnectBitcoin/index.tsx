@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import okxIcon from "./okx.jpeg";
 import xdefiIcon from "./xdefi.jpeg";
 import unisatIcon from "./unisat.jpeg";
@@ -26,6 +26,42 @@ const formatAddress = (str: string): string => {
   const lastPart = str.slice(-4);
   return `${firstPart}...${lastPart}`;
 };
+
+const WalletButton = React.memo(
+  ({
+    walletType,
+    icon,
+    label,
+    connectWallet,
+    isLoading,
+  }: {
+    walletType: WalletType;
+    icon: StaticImageData;
+    label: string;
+    connectWallet: (walletType: WalletType) => void;
+    isLoading: any;
+  }) => (
+    <Button
+      onClick={() => connectWallet(walletType)}
+      disabled={isLoading.loading}
+      variant="link"
+      size="icon"
+      className={`filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer ${
+        isLoading.walletType === walletType &&
+        "scale-95 brightness-50 hover:scale-95"
+      }`}
+    >
+      <Image
+        className="rounded-xl"
+        src={icon}
+        width="75"
+        height="75"
+        alt={`${label} wallet`}
+      />
+      <div className="py-1 font-rounded font-medium text-sm">{label}</div>
+    </Button>
+  )
+);
 
 const Details = React.memo(({ account, disconnect }: any) => {
   const [copyStatus, setCopyStatus] = useState(false);
@@ -85,8 +121,6 @@ const Details = React.memo(({ account, disconnect }: any) => {
 });
 
 const Connect = React.memo(({ connectWallet, isLoading }: any) => {
-  const { loading, walletType } = isLoading;
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -101,56 +135,28 @@ const Connect = React.memo(({ connectWallet, isLoading }: any) => {
         <DialogTitle className="pt-1 font-rounded font-extrabold tracking-normal">
           Connect a Bitcoin Wallet
         </DialogTitle>
-        {JSON.stringify(isLoading)}
         <div className="flex gap-2 justify-between pt-5 px-2 items-start">
-          <Button
-            onClick={() => connectWallet("okx")}
-            disabled={loading}
-            variant="link"
-            size="icon"
-            className="filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
-          >
-            <Image
-              className="rounded-xl"
-              src={okxIcon}
-              width="75"
-              height="75"
-              alt="OKX wallet"
-            />
-            <div className="py-1 font-rounded font-medium text-sm">OKX</div>
-          </Button>
-          <Button
-            onClick={() => connectWallet("xdefi")}
-            disabled={loading}
-            variant="link"
-            size="icon"
-            className="filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
-          >
-            <Image
-              className="rounded-xl"
-              src={xdefiIcon}
-              width="75"
-              height="75"
-              alt="XDEFI wallet"
-            />
-            <div className="py-1 font-rounded font-medium text-sm">XDEFI</div>
-          </Button>
-          <Button
-            onClick={() => connectWallet("unisat")}
-            disabled={loading}
-            variant="link"
-            size="icon"
-            className="filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
-          >
-            <Image
-              className="rounded-xl"
-              src={unisatIcon}
-              width="75"
-              height="75"
-              alt="UniSat wallet"
-            />
-            <div className="py-1 font-rounded font-medium text-sm">UniSat</div>
-          </Button>
+          <WalletButton
+            walletType="okx"
+            icon={okxIcon}
+            label="OKX"
+            connectWallet={connectWallet}
+            isLoading={isLoading}
+          />
+          <WalletButton
+            walletType="xdefi"
+            icon={xdefiIcon}
+            label="XDEFI"
+            connectWallet={connectWallet}
+            isLoading={isLoading}
+          />
+          <WalletButton
+            walletType="unisat"
+            icon={unisatIcon}
+            label="UniSat"
+            connectWallet={connectWallet}
+            isLoading={isLoading}
+          />
         </div>
       </DialogContent>
     </Dialog>
