@@ -6,7 +6,7 @@ import {
   useBitcoinAccount,
   WalletType,
 } from "@/providers/BitcoinAccountProvider";
-import { Copy, LogOut, Check } from "lucide-react";
+import { Copy, LogOut, Check, LoaderCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -33,21 +33,21 @@ const WalletButton = React.memo(
     icon,
     label,
     connectWallet,
-    isLoading,
+    loading,
   }: {
     walletType: WalletType;
     icon: StaticImageData;
     label: string;
     connectWallet: (walletType: WalletType) => void;
-    isLoading: any;
+    loading: any;
   }) => (
     <Button
       onClick={() => connectWallet(walletType)}
-      disabled={isLoading.loading}
+      disabled={loading.isLoading}
       variant="link"
       size="icon"
       className={`filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer ${
-        isLoading.walletType === walletType &&
+        loading.walletType === walletType &&
         "scale-95 brightness-50 hover:scale-95"
       }`}
     >
@@ -58,7 +58,15 @@ const WalletButton = React.memo(
         height="75"
         alt={`${label} wallet`}
       />
-      <div className="py-1 font-rounded font-medium text-sm">{label}</div>
+      <div className="py-1 font-rounded font-medium text-sm">
+        {loading.walletType === walletType ? (
+          <div>
+            <LoaderCircle className="w-4 h-4 animate-spin opacity-50" />
+          </div>
+        ) : (
+          label
+        )}
+      </div>
     </Button>
   )
 );
@@ -120,7 +128,7 @@ const Details = React.memo(({ account, disconnect }: any) => {
   );
 });
 
-const Connect = React.memo(({ connectWallet, isLoading }: any) => {
+const Connect = React.memo(({ connectWallet, loading }: any) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -141,21 +149,21 @@ const Connect = React.memo(({ connectWallet, isLoading }: any) => {
             icon={okxIcon}
             label="OKX"
             connectWallet={connectWallet}
-            isLoading={isLoading}
+            loading={loading}
           />
           <WalletButton
             walletType="xdefi"
             icon={xdefiIcon}
             label="XDEFI"
             connectWallet={connectWallet}
-            isLoading={isLoading}
+            loading={loading}
           />
           <WalletButton
             walletType="unisat"
             icon={unisatIcon}
             label="UniSat"
             connectWallet={connectWallet}
-            isLoading={isLoading}
+            loading={loading}
           />
         </div>
       </DialogContent>
@@ -164,18 +172,13 @@ const Connect = React.memo(({ connectWallet, isLoading }: any) => {
 });
 
 export const ConnectBitcoin = () => {
-  const { account, isLoading, connectWallet, disconnect } = useBitcoinAccount();
+  const { account, loading, connectWallet, disconnect } = useBitcoinAccount();
   const modalComponent = useMemo(() => {
     if (account) {
       return <Details account={account} disconnect={disconnect} />;
     }
-    return <Connect connectWallet={connectWallet} isLoading={isLoading} />;
-  }, [account, isLoading, connectWallet, disconnect]);
+    return <Connect connectWallet={connectWallet} loading={loading} />;
+  }, [account, loading, connectWallet, disconnect]);
 
-  return (
-    <div>
-      {/* Other parent content */}
-      {modalComponent}
-    </div>
-  );
+  return <div>{modalComponent}</div>;
 };

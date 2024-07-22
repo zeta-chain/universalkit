@@ -4,7 +4,7 @@ export type WalletType = "unisat" | "okx" | "xdefi";
 
 interface AccountContextProps {
   account: string | null;
-  isLoading: { loading: boolean; walletType: WalletType | null };
+  loading: { isLoading: boolean; walletType: WalletType | null };
   connectWallet: (walletType: WalletType) => void;
   disconnect: () => void;
 }
@@ -19,10 +19,10 @@ export const BitcoinAccountProvider = ({
   children: ReactNode;
 }) => {
   const [account, setAccount] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<{
-    loading: boolean;
+  const [loading, setLoading] = useState<{
+    isLoading: boolean;
     walletType: WalletType | null;
-  }>({ loading: false, walletType: null });
+  }>({ isLoading: false, walletType: null });
 
   const connectWallet = async (walletType: WalletType) => {
     setAccount(null);
@@ -44,7 +44,7 @@ export const BitcoinAccountProvider = ({
     }
 
     if (wallet) {
-      setIsLoading({ loading: true, walletType });
+      setLoading({ isLoading: true, walletType });
       try {
         let account;
         switch (walletType) {
@@ -63,7 +63,7 @@ export const BitcoinAccountProvider = ({
       } catch (error) {
         console.error(`Connection to ${walletType} wallet failed:`, error);
       } finally {
-        setIsLoading({ loading: false, walletType: null });
+        setLoading({ isLoading: false, walletType: null });
       }
     }
   };
@@ -74,7 +74,7 @@ export const BitcoinAccountProvider = ({
 
   return (
     <AccountContext.Provider
-      value={{ account, isLoading, connectWallet, disconnect }}
+      value={{ account, loading, connectWallet, disconnect }}
     >
       {children}
     </AccountContext.Provider>
