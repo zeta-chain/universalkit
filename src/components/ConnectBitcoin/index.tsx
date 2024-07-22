@@ -43,12 +43,13 @@ const WalletButton = React.memo(
   }) => (
     <Button
       onClick={() => connectWallet(walletType)}
-      disabled={loading.isLoading}
+      disabled={loading.isLoading && loading.walletType === walletType}
       variant="link"
       size="icon"
       className={`filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer ${
-        loading.walletType === walletType &&
-        "scale-95 brightness-50 hover:scale-95"
+        loading.isLoading && loading.walletType === walletType
+          ? "scale-95 brightness-50 hover:scale-95"
+          : ""
       }`}
     >
       <Image
@@ -59,7 +60,7 @@ const WalletButton = React.memo(
         alt={`${label} wallet`}
       />
       <div className="py-1 font-rounded font-medium text-sm">
-        {loading.walletType === walletType ? (
+        {loading.isLoading && loading.walletType === walletType ? (
           <div>
             <LoaderCircle className="w-4 h-4 animate-spin opacity-50" />
           </div>
@@ -175,7 +176,7 @@ export const ConnectBitcoin = () => {
   const { address, loading, connectWallet, disconnect } = useBitcoinWallet();
   const modalComponent = useMemo(() => {
     if (address) {
-      return <Details account={address} disconnect={disconnect} />;
+      return <Details address={address} disconnect={disconnect} />;
     }
     return <Connect connectWallet={connectWallet} loading={loading} />;
   }, [address, loading, connectWallet, disconnect]);

@@ -44,11 +44,13 @@ export const BitcoinWalletProvider = ({
         setAddress(address);
       } catch (error) {
         console.error(`Connection to ${walletConfig.label} failed:`, error);
-      } finally {
         setLoading({ isLoading: false, walletType: null });
+        return;
       }
+      setLoading({ isLoading: false, walletType: null });
     } else {
       console.error("Unsupported wallet type");
+      setLoading({ isLoading: false, walletType: null });
     }
   };
 
