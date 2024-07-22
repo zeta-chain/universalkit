@@ -37,7 +37,6 @@ export const BitcoinWalletProvider = ({
     setAddress(null);
     const walletConfig = walletTypes[walletType];
     const wallet = (window as any)[walletConfig.name];
-
     if (wallet) {
       setLoading({ isLoading: true, walletType });
       try {

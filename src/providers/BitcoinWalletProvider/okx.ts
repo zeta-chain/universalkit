@@ -1,6 +1,6 @@
 export const okxWallet = {
   label: "OKX Wallet",
-  name: "okx",
+  name: "okxwallet",
   getAddress: async (wallet: any) => {
     return (await wallet.bitcoinTestnet.connect()).address;
   },

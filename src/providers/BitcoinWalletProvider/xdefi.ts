@@ -1,6 +1,6 @@
 export const xdefiWallet = {
   label: "XDEFI Wallet",
-  name: "xdefi",
+  name: "xfi",
   getAddress: async (wallet: any) => {
     wallet.bitcoin.changeNetwork("testnet");
     return (await wallet?.bitcoin?.getAccounts())[0];

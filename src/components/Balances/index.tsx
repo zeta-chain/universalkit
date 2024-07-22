@@ -43,7 +43,6 @@ export const Balances = ({
         evmAddress: address,
         btcAddress: bitcoin,
       });
-      console.log(result);
       setBalances(result);
     } catch (err: any) {
       setError(err.message);
