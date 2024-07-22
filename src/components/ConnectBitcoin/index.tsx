@@ -85,6 +85,8 @@ const Details = React.memo(({ account, disconnect }: any) => {
 });
 
 const Connect = React.memo(({ connectWallet, isLoading }: any) => {
+  const { loading, walletType } = isLoading;
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -99,10 +101,11 @@ const Connect = React.memo(({ connectWallet, isLoading }: any) => {
         <DialogTitle className="pt-1 font-rounded font-extrabold tracking-normal">
           Connect a Bitcoin Wallet
         </DialogTitle>
+        {JSON.stringify(isLoading)}
         <div className="flex gap-2 justify-between pt-5 px-2 items-start">
           <Button
             onClick={() => connectWallet("okx")}
-            disabled={isLoading}
+            disabled={loading}
             variant="link"
             size="icon"
             className="filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
@@ -118,7 +121,7 @@ const Connect = React.memo(({ connectWallet, isLoading }: any) => {
           </Button>
           <Button
             onClick={() => connectWallet("xdefi")}
-            disabled={isLoading}
+            disabled={loading}
             variant="link"
             size="icon"
             className="filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
@@ -134,7 +137,7 @@ const Connect = React.memo(({ connectWallet, isLoading }: any) => {
           </Button>
           <Button
             onClick={() => connectWallet("unisat")}
-            disabled={isLoading}
+            disabled={loading}
             variant="link"
             size="icon"
             className="filter active:brightness-50 disabled:opacity-100 active:scale-95 p-1 w-fit h-fit flex flex-col items-center hover:no-underline hover:scale-1025 transition-all cursor-pointer"
