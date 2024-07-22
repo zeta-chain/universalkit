@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RefreshCw } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { roundNumber } from "@/lib/utils";
 
 interface Token {
   id: string;
@@ -132,7 +133,7 @@ export const Balances = ({
             <span>{token.symbol}</span>
             <span className="text-gray-500 text-xs">{token.chain_name}</span>
           </div>
-          <span>{parseFloat(token.balance).toFixed(2)}</span>
+          <span>{roundNumber(parseFloat(token.balance))}</span>
         </div>
       ))}
     </div>
