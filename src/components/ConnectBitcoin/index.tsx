@@ -24,7 +24,7 @@ const formatAddress = (str: string): string => {
   return `${firstPart}...${lastPart}`;
 };
 
-const Details = React.memo(({ account, disconnect }) => {
+const Details = React.memo(({ account, disconnect }: any) => {
   const [copyStatus, setCopyStatus] = useState(false);
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
 
@@ -50,14 +50,14 @@ const Details = React.memo(({ account, disconnect }) => {
           {formatAddress(account as string)}
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-5 sm:max-w-[400px] light:bg-zinc-100 light:border-white shadow-xl">
+      <DialogContent className="p-5 sm:max-w-[400px] bg-zinc-100 dark:bg-background light:border-white shadow-xl">
         <div className="font-rounded text-[18px] font-[800] text-center">
           {formatAddress(account as string)}
         </div>
         <div className="flex gap-2 ">
           <Button
             onClick={(e) => copyToClipboard(account as string, e)}
-            className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover dark:bg-zinc-900 light:bg-white light:hover:bg-zinc-50 hover:scale-1025 transition-all"
+            className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover dark:bg-zinc-900 bg-white hover:bg-zinc-50 hover:scale-1025 transition-all"
             variant="ghost"
           >
             {copyStatus ? (
@@ -69,7 +69,7 @@ const Details = React.memo(({ account, disconnect }) => {
           </Button>
           <Button
             onClick={disconnect}
-            className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-rounded text-sm hover light:bg-white light:hover:bg-zinc-50 dark:bg-zinc-900 hover:scale-1025 transition-all"
+            className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover dark:bg-zinc-900 bg-white hover:bg-zinc-50 hover:scale-1025 transition-all"
             variant="ghost"
           >
             <LogOut className="w-4 h-4 m-1" strokeWidth="2.5" />
@@ -81,7 +81,7 @@ const Details = React.memo(({ account, disconnect }) => {
   );
 });
 
-const Connect = React.memo(({ connectWallet, isLoading }) => {
+const Connect = React.memo(({ connectWallet, isLoading }: any) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -160,10 +160,5 @@ export const ConnectBitcoin = () => {
     return <Connect connectWallet={connectWallet} isLoading={isLoading} />;
   }, [account, isLoading, connectWallet, disconnect]);
 
-  return (
-    <div>
-      {/* Other parent content */}
-      {modalComponent}
-    </div>
-  );
+  return <div>{modalComponent}</div>;
 };
