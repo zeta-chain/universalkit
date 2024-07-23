@@ -14,7 +14,7 @@ export default {
     }: {
       to: string;
       value: number;
-      memo: string;
+      memo?: string;
     }
   ) => {
     wallet.bitcoin.changeNetwork("testnet");

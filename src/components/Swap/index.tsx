@@ -19,7 +19,7 @@ interface SwapProps {
   account: any;
   track?: any;
   balances?: any;
-  bitcoin?: string;
+  bitcoin?: any;
 }
 
 export const Swap: React.FC<SwapProps> = ({

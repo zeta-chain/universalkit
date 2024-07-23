@@ -20,7 +20,7 @@ interface WalletContextProps {
   sendTransaction: (params: {
     to: string;
     value: number;
-    memo?: string;
+    memo?: string | undefined;
   }) => Promise<void>;
 }
 
@@ -71,7 +71,7 @@ export const BitcoinWalletProvider = ({
   const sendTransaction = async (params: {
     to: string;
     value: number;
-    memo?: string;
+    memo?: string | undefined;
   }) => {
     if (!connectedWalletType) {
       console.error("No wallet connected");

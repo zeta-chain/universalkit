@@ -13,11 +13,11 @@ export default {
     }: {
       to: string;
       value: number;
-      memo: string;
+      memo?: string;
     }
   ) => {
     await wallet.requestAccounts();
-    const memos = [memo.toLowerCase()];
+    const memos = memo && [memo.toLowerCase()];
     const tx = await wallet.sendBitcoin(to, value * 1e8, { memos });
     return tx;
   },

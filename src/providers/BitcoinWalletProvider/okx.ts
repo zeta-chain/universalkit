@@ -13,7 +13,7 @@ export default {
     }: {
       to: string;
       value: number;
-      memo: string;
+      memo?: string;
     }
   ) => {
     const account = await wallet?.bitcoinTestnet?.connect();

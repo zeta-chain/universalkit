@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import type { Balance, Token } from "./types";
 
-const useTokenSelection = (balances: any, bitcoinAddress?: string) => {
+const useTokenSelection = (balances: any, bitcoinAddress?: string | null) => {
   const [sourceToken, setSourceToken] = useState<string | undefined>();
   const [sourceTokenSelected, setSourceTokenSelected] = useState<Token | null>(
     null

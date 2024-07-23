@@ -21,7 +21,7 @@ const useSendTransaction = (
   addressSelected: string,
   setSourceAmount: (amount: string) => void,
   omnichainSwapContractAddress: string,
-  bitcoinAddress: string | undefined,
+  bitcoinAddress: string | null,
   client: any,
   address: `0x${string}` | undefined,
   track?: any
