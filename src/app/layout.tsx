@@ -1,8 +1,8 @@
-import '../styles/global.css';
-import '@rainbow-me/rainbowkit/styles.css';
-import { Providers } from './providers';
+import "../styles/global.css";
+import "@rainbow-me/rainbowkit/styles.css";
+import { Providers } from "./providers";
 
-function RootLayout({ children }: { children: React.ReactNode }) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body>
@@ -10,6 +10,6 @@ function RootLayout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
-}
+};
 
 export default RootLayout;
