@@ -30,6 +30,11 @@ module.exports = {
       },
       colors: {
         bitcoin: "#f89414",
+        rainbowkit: {
+          dark: "#1a1b1f",
+          secondary: "#24262a",
+          profileAction: "rgba(224, 232, 255, 0.1)",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

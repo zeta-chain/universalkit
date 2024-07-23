@@ -93,19 +93,19 @@ const Details = React.memo(({ address, disconnect }: any) => {
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="mx-2 dark:hover:text-primary-foreground bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
+          className="mx-2 dark:bg-rainbowkit-dark dark:text-white dark:hover:text-white bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
         >
           {formatAddress(address as string)}
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-5 sm:max-w-[400px] bg-zinc-100 dark:bg-background light:border-white shadow-xl">
+      <DialogContent className="p-5 dark:bg-rainbowkit-dark dark:text-white sm:max-w-[400px] bg-zinc-100 light:border-white shadow-xl">
         <div className="font-rounded text-[18px] font-[800] text-center">
           {formatAddress(address as string)}
         </div>
         <div className="flex gap-2 ">
           <Button
             onClick={(e) => copyToClipboard(address as string, e)}
-            className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover dark:bg-zinc-900 bg-white hover:bg-zinc-50 hover:scale-1025 transition-all"
+            className="active:scale-95 dark:text-white rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover bg-white hover:bg-zinc-50 hover:scale-1025 transition-all dark:bg-rainbowkit-profileAction"
             variant="ghost"
           >
             {copyStatus ? (
@@ -117,7 +117,7 @@ const Details = React.memo(({ address, disconnect }: any) => {
           </Button>
           <Button
             onClick={disconnect}
-            className="active:scale-95 rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover dark:bg-zinc-900 bg-white hover:bg-zinc-50 hover:scale-1025 transition-all"
+            className="active:scale-95 dark:text-white rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover bg-white hover:bg-zinc-50 hover:scale-1025 transition-all dark:bg-rainbowkit-profileAction"
             variant="ghost"
           >
             <LogOut className="w-4 h-4 m-1" strokeWidth="2.5" />
@@ -135,13 +135,13 @@ const Connect = React.memo(({ connectWallet, loading }: any) => {
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="mx-2 dark:hover:text-primary-foreground bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
+          className="mx-2 dark:bg-rainbowkit-dark dark:text-foreground dark:hover:text-white bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
         >
           Connect Bitcoin
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-5 sm:max-w-[400px]">
-        <DialogTitle className="pt-1 font-rounded font-extrabold tracking-normal">
+      <DialogContent className="p-5 sm:max-w-[400px] dark:bg-rainbowkit-secondary">
+        <DialogTitle className="pt-1 dark:text-white font-rounded font-extrabold tracking-normal">
           Connect a Bitcoin Wallet
         </DialogTitle>
         <div className="flex gap-2 justify-between pt-5 px-2 items-start">
