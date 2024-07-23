@@ -19,6 +19,7 @@ interface SwapProps {
   account: any;
   track?: any;
   balances?: any;
+  bitcoin?: string;
 }
 
 export const Swap: React.FC<SwapProps> = ({
@@ -27,9 +28,9 @@ export const Swap: React.FC<SwapProps> = ({
   balances: balancesProp,
   client,
   account,
+  bitcoin,
 }) => {
   const { address, chainId } = account;
-  const bitcoinAddress = ""; // temporary
 
   const [sourceAmount, setSourceAmount] = useState<string>("");
   const [isRightChain, setIsRightChain] = useState(true);
@@ -41,7 +42,10 @@ export const Swap: React.FC<SwapProps> = ({
   const fetchBalances = async () => {
     setBalancesLoading(true);
     try {
-      const result = await client.getBalances({ evmAddress: address });
+      const result = await client.getBalances({
+        evmAddress: address,
+        btcAddress: bitcoin,
+      });
       setBalances(result);
     } catch (error) {
       console.error("Error fetching local balances:", error);
@@ -57,7 +61,7 @@ export const Swap: React.FC<SwapProps> = ({
     } else if (address) {
       fetchBalances();
     }
-  }, [address]);
+  }, [address, bitcoin]);
 
   const {
     setSourceToken,
@@ -66,7 +70,7 @@ export const Swap: React.FC<SwapProps> = ({
     setDestinationToken,
     destinationTokenSelected,
     destinationBalances,
-  } = useTokenSelection(balances, bitcoinAddress);
+  } = useTokenSelection(balances, bitcoin);
 
   const { crossChainFee } = useCrossChainFee(
     sourceTokenSelected,
@@ -108,7 +112,7 @@ export const Swap: React.FC<SwapProps> = ({
     setCustomAddress,
     isCustomAddressValid,
     saveCustomAddress,
-  } = useDestinationAddress(address, destinationTokenSelected, bitcoinAddress);
+  } = useDestinationAddress(address, destinationTokenSelected, bitcoin);
 
   const { handleSend, isSending } = useSendTransaction(
     sourceTokenSelected,
@@ -117,7 +121,7 @@ export const Swap: React.FC<SwapProps> = ({
     addressSelected,
     setSourceAmount,
     contract,
-    bitcoinAddress,
+    bitcoin,
     client,
     address,
     track

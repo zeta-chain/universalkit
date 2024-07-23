@@ -238,7 +238,7 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
             </PopoverTrigger>
             <PopoverContent className="w-[300px] p-0 border-none shadow-2xl dark:border dark:border-zinc-800 dark:border-solid">
               <Command>
-                <CommandList className="bg-zinc-900">
+                <CommandList className="dark:bg-zinc-900">
                   <CommandInput placeholder="Search tokens..." />
                   <CommandEmpty>No available tokens found.</CommandEmpty>
                   <CommandGroup className="max-h-[400px] overflow-y-scroll">
