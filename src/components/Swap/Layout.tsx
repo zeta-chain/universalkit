@@ -6,7 +6,6 @@ import {
   Check,
   ChevronDown,
   Loader2,
-  RefreshCcw,
   Send,
   UserCircle2,
 } from "lucide-react";
@@ -27,6 +26,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { roundNumber } from "@/lib/utils";
 
 interface SwapLayoutProps {
   sendTypeDetails: any;
@@ -142,7 +142,7 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                     </div>
                     <div>
                       {sourceTokenSelected &&
-                        parseFloat(sourceTokenSelected.balance).toFixed(2)}
+                        roundNumber(parseFloat(sourceTokenSelected.balance))}
                     </div>
                   </div>
                   <div className="text-xs text-zinc-400">
@@ -180,7 +180,9 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                         <div className="w-full">
                           <div className="flex justify-between">
                             <div>{balances.symbol}</div>
-                            <div>{parseFloat(balances.balance).toFixed(2)}</div>
+                            <div>
+                              {roundNumber(parseFloat(balances.balance))}
+                            </div>
                           </div>
                           <div className="text-xs text-zinc-400">
                             {balances.chain_name}
@@ -270,7 +272,9 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                         <div className="w-full">
                           <div className="flex justify-between">
                             <div>{balances.symbol}</div>
-                            <div>{parseFloat(balances.balance).toFixed(2)}</div>
+                            <div>
+                              {roundNumber(parseFloat(balances.balance))}
+                            </div>
                           </div>
                           <div className="text-xs text-zinc-400">
                             {balances.chain_name}

@@ -164,6 +164,7 @@ export const Swap: React.FC<SwapProps> = ({
 
   return (
     <div>
+      {JSON.stringify(sendType)}
       <SwapLayout
         sendTypeDetails={sendTypeDetails}
         sendType={sendType}

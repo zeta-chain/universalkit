@@ -12,6 +12,7 @@ import { computeSendType } from "./computeSendType";
 
 import SwapToAnyToken from "./SwapToAnyToken.json";
 import type { Inbound, Token } from "./types";
+import { useBitcoinWallet } from "@/providers/BitcoinWalletProvider";
 
 const useSendTransaction = (
   sourceTokenSelected: Token | null,
@@ -20,11 +21,12 @@ const useSendTransaction = (
   addressSelected: string,
   setSourceAmount: (amount: string) => void,
   omnichainSwapContractAddress: string,
-  bitcoinAddress: string,
+  bitcoinAddress: string | undefined,
   client: any,
   address: `0x${string}` | undefined,
   track?: any
 ) => {
+  const { sendTransaction } = useBitcoinWallet();
   const sendType = computeSendType(
     sourceTokenSelected,
     destinationTokenSelected
@@ -79,46 +81,46 @@ const useSendTransaction = (
     };
   };
 
-  const crossChainSwapBTCHandle = async ({
-    withdraw,
-  }: {
-    withdraw: boolean;
-  }) => {
-    if (!address) {
-      console.error("EVM address undefined.");
-      return;
-    }
-    if (!bitcoinAddress) {
-      console.error("Bitcoin address undefined.");
-      return;
-    }
-    if (!destinationTokenSelected) {
-      console.error("Destination token not selected.");
-      return;
-    }
-    const a = parseFloat(sourceAmount) * 1e8;
-    const bitcoinTSSAddress = "tb1qy9pqmk2pd9sv63g27jt8r657wy0d9ueeh0nqur";
-    const contract = omnichainSwapContractAddress.replace(/^0x/, "");
-    const zrc20 = destinationTokenSelected.zrc20?.replace(/^0x/, "");
-    const dest = address.replace(/^0x/, "");
-    const withdrawFlag = withdraw ? "00" : "01";
-    const memo = `hex::${contract}${zrc20}${dest}${withdrawFlag}`;
-    (window as any).xfi.bitcoin.request(
-      bitcoinXDEFITransfer(bitcoinAddress, bitcoinTSSAddress, a, memo),
-      (error: any, hash: any) => {
-        if (!error && track) {
-          track({
-            hash: hash,
-            desc: `Sent ${sourceAmount} tBTC`,
-          });
-        }
-      }
-    );
-  };
+  // const crossChainSwapBTCHandle = async ({
+  //   withdraw,
+  // }: {
+  //   withdraw: boolean;
+  // }) => {
+  //   if (!address) {
+  //     console.error("EVM address undefined.");
+  //     return;
+  //   }
+  //   if (!bitcoinAddress) {
+  //     console.error("Bitcoin address undefined.");
+  //     return;
+  //   }
+  //   if (!destinationTokenSelected) {
+  //     console.error("Destination token not selected.");
+  //     return;
+  //   }
+  //   const a = parseFloat(sourceAmount) * 1e8;
+  //   const bitcoinTSSAddress = "tb1qy9pqmk2pd9sv63g27jt8r657wy0d9ueeh0nqur";
+  //   const contract = omnichainSwapContractAddress.replace(/^0x/, "");
+  //   const zrc20 = destinationTokenSelected.zrc20?.replace(/^0x/, "");
+  //   const dest = address.replace(/^0x/, "");
+  //   const withdrawFlag = withdraw ? "00" : "01";
+  //   const memo = `hex::${contract}${zrc20}${dest}${withdrawFlag}`;
+  //   (window as any).xfi.bitcoin.request(
+  //     bitcoinXDEFITransfer(bitcoinAddress, bitcoinTSSAddress, a, memo),
+  //     (error: any, hash: any) => {
+  //       if (!error && track) {
+  //         track({
+  //           hash: hash,
+  //           desc: `Sent ${sourceAmount} tBTC`,
+  //         });
+  //       }
+  //     }
+  //   );
+  // };
 
-  m.crossChainSwapBTC = async () => crossChainSwapBTCHandle({ withdraw: true });
-  m.crossChainSwapBTCTransfer = async () =>
-    crossChainSwapBTCHandle({ withdraw: false });
+  // m.crossChainSwapBTC = async () => crossChainSwapBTCHandle({ withdraw: true });
+  // m.crossChainSwapBTCTransfer = async () =>
+  //   crossChainSwapBTCHandle({ withdraw: false });
 
   m.depositBTC = async () => {
     if (!address) {
@@ -468,6 +470,34 @@ const useSendTransaction = (
     }
     console.log(tx.hash);
   };
+
+  const fromBitcoinCrossChainSwapHandle = async ({
+    withdraw,
+  }: {
+    withdraw: boolean;
+  }) => {
+    const bitcoinTSSAddress = "tb1qy9pqmk2pd9sv63g27jt8r657wy0d9ueeh0nqur";
+    const contract = omnichainSwapContractAddress.replace(/^0x/, "");
+    const zrc20 = destinationTokenSelected?.zrc20?.replace(/^0x/, "");
+    const dest = address?.replace(/^0x/, "");
+    const withdrawFlag = withdraw ? "01" : "00";
+
+    sendTransaction({
+      to: bitcoinTSSAddress,
+      value: parseFloat(sourceAmount),
+      memo: `${contract}${zrc20}${dest}${withdrawFlag}`,
+    });
+  };
+
+  m.fromBitcoinCrossChainSwapWithdraw = async () =>
+    fromBitcoinCrossChainSwapHandle({
+      withdraw: true,
+    });
+
+  m.fromBitcoinCrossChainSwap = async () =>
+    fromBitcoinCrossChainSwapHandle({
+      withdraw: false,
+    });
 
   m.crossChainSwapBTC = async () => crossChainSwapHandle(true);
   m.crossChainSwapBTCTransfer = async () => crossChainSwapHandle(false);

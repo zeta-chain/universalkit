@@ -76,9 +76,17 @@ export const computeSendType = (
       ((fromERC20 && toERC20) || (fromZRC20 && toZRC20)) &&
       !fromToBitcoin,
     crossChainSwap: () =>
-      !fromToZetaChain && !fromToZETAorWZETA && !sameChain && !fromBTC,
+      !fromToZetaChain &&
+      !fromBitcoin &&
+      !fromToZETAorWZETA &&
+      !sameChain &&
+      !fromBTC,
     crossChainSwapTransfer: () =>
-      !fromZetaChain && toZetaChain && (toZRC20 || toZETA) && !fromZETAorWZETA,
+      !fromZetaChain &&
+      !fromBitcoin &&
+      toZetaChain &&
+      (toZRC20 || toZETA) &&
+      !fromZETAorWZETA,
     fromZetaChainSwapAndWithdraw: () =>
       fromZetaChain && !toZetaChain && !toZETAorWZETA && (toERC20 || toGas),
     fromZetaChainSwap: () =>
@@ -86,6 +94,9 @@ export const computeSendType = (
       toZetaChain &&
       !(fromWZETA || toWZETA) &&
       (toZRC20 || toZETA),
+    fromBitcoinCrossChainSwapWithdraw: () =>
+      fromBitcoin && !toZETAorWZETA && !toBitcoin && !toZetaChain,
+    fromBitcoinCrossChainSwap: () => fromBitcoin && !toBitcoin && toZetaChain,
   };
 
   const result = Object.entries(conditions).find(([_, check]) => check());
