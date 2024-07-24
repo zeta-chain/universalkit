@@ -6,7 +6,6 @@ import {
   Check,
   ChevronDown,
   Loader2,
-  RefreshCcw,
   Send,
   UserCircle2,
 } from "lucide-react";
@@ -27,6 +26,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { roundNumber } from "@/lib/utils";
 
 interface SwapLayoutProps {
   sendTypeDetails: any;
@@ -142,7 +142,7 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                     </div>
                     <div>
                       {sourceTokenSelected &&
-                        parseFloat(sourceTokenSelected.balance).toFixed(2)}
+                        roundNumber(parseFloat(sourceTokenSelected.balance))}
                     </div>
                   </div>
                   <div className="text-xs text-zinc-400">
@@ -180,7 +180,9 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                         <div className="w-full">
                           <div className="flex justify-between">
                             <div>{balances.symbol}</div>
-                            <div>{parseFloat(balances.balance).toFixed(2)}</div>
+                            <div>
+                              {roundNumber(parseFloat(balances.balance))}
+                            </div>
                           </div>
                           <div className="text-xs text-zinc-400">
                             {balances.chain_name}
@@ -238,7 +240,7 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
             </PopoverTrigger>
             <PopoverContent className="w-[300px] p-0 border-none shadow-2xl dark:border dark:border-zinc-800 dark:border-solid">
               <Command>
-                <CommandList className="bg-zinc-900">
+                <CommandList className="dark:bg-zinc-900">
                   <CommandInput placeholder="Search tokens..." />
                   <CommandEmpty>No available tokens found.</CommandEmpty>
                   <CommandGroup className="max-h-[400px] overflow-y-scroll">
@@ -270,7 +272,9 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                         <div className="w-full">
                           <div className="flex justify-between">
                             <div>{balances.symbol}</div>
-                            <div>{parseFloat(balances.balance).toFixed(2)}</div>
+                            <div>
+                              {roundNumber(parseFloat(balances.balance))}
+                            </div>
                           </div>
                           <div className="text-xs text-zinc-400">
                             {balances.chain_name}
