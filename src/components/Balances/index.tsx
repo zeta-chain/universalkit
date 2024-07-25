@@ -78,24 +78,26 @@ export const Balances = ({
     );
 
   const SearchInput = (
-    <div className="m-2 relative flex items-center">
-      <Input
-        placeholder="Search tokens..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="pl-9"
-      />
-      <Search className="absolute left-3 top-3 w-4 h-4 text-gray-500" />
-      <Button
-        variant="link"
-        size="icon"
-        className="ml-2 absolute right-0 top-0"
-        onClick={() => fetchBalances(true)}
-      >
-        <RefreshCw
-          className={`w-4 h-4 text-gray-500 ${isReloading && "animate-spin"}`}
+    <div className="p-2">
+      <div className="relative flex items-center">
+        <Input
+          placeholder="Search tokens..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="pl-9 dark:bg-zinc-900"
         />
-      </Button>
+        <Search className="absolute left-3 top-3 w-4 h-4 text-gray-500" />
+        <Button
+          variant="link"
+          size="icon"
+          className="ml-2 absolute right-0 top-0"
+          onClick={() => fetchBalances(true)}
+        >
+          <RefreshCw
+            className={`w-4 h-4 text-gray-500 ${isReloading && "animate-spin"}`}
+          />
+        </Button>
+      </div>
     </div>
   );
 
@@ -107,7 +109,7 @@ export const Balances = ({
             variant="outline"
             size="sm"
             key={chain}
-            className={`mr-2 ${
+            className={`mr-2 dark:font-light ${
               selectedChain === chain ? "bg-zinc-100 dark:bg-zinc-800" : ""
             }`}
             onClick={() =>
@@ -130,7 +132,7 @@ export const Balances = ({
           onClick={() => onBalanceClick(token)}
         >
           <div className="flex flex-col">
-            <span>{token.symbol}</span>
+            <span className="font-light">{token.symbol}</span>
             <span className="text-gray-500 text-xs">{token.chain_name}</span>
           </div>
           <span>{roundNumber(parseFloat(token.balance))}</span>
@@ -140,7 +142,7 @@ export const Balances = ({
   );
 
   const LoadingSkeleton = (
-    <div className="space-y-2 px-2 pb-2">
+    <div className="space-y-2 px-2 pb-2 mt-2">
       {Array(5)
         .fill(null)
         .map((_, index) => (
@@ -157,7 +159,7 @@ export const Balances = ({
 
   return (
     <div>
-      <Card className="dark:bg-zinc-900">
+      <Card className="dark:bg-zinc-900 border-none shadow-xl shadow-zeta-grey-100 dark:shadow-none">
         {SearchInput}
         {error ? (
           ErrorMessage

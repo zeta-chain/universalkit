@@ -105,7 +105,7 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
   };
 
   return (
-    <Card className="p-0 px-5 pb-7 pt-2 dark:bg-zinc-900">
+    <Card className="p-0 px-5 pb-7 pt-2 dark:bg-zinc-900 border-none shadow-xl shadow-zeta-grey-100 dark:shadow-none">
       <h1 className="text-2xl font-bold leading-tight tracking-tight mt-6 mb-4 ml-2">
         {sendTypeDetails[sendType as any]?.title || "Swap"}
       </h1>
@@ -154,16 +154,16 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                 <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-75" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0 border-none shadow-2xl dark:border dark:border-zinc-800 dark:border-solid">
+            <PopoverContent className="w-[300px] p-0 border-none shadow-2xl">
               <Command>
-                <CommandList className="dark:bg-zinc-900">
+                <CommandList className="dark:bg-zinc-800">
                   <CommandInput placeholder="Search tokens..." />
                   <CommandEmpty>No available tokens found.</CommandEmpty>
                   <CommandGroup className="max-h-[400px] overflow-y-scroll">
                     {sourceBalances.map((balances: any) => (
                       <CommandItem
                         key={balances.id}
-                        className="hover:cursor-pointer"
+                        className="hover:cursor-pointer dark:hover:bg-zinc-700"
                         value={balances.id}
                         onSelect={(c: any) => {
                           setSourceToken(c === sourceTokenSelected ? null : c);
@@ -238,16 +238,16 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                 <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-75" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0 border-none shadow-2xl dark:border dark:border-zinc-800 dark:border-solid">
+            <PopoverContent className="w-[300px] p-0 border-none shadow-2xl">
               <Command>
-                <CommandList className="dark:bg-zinc-900">
+                <CommandList className="dark:bg-zinc-800">
                   <CommandInput placeholder="Search tokens..." />
                   <CommandEmpty>No available tokens found.</CommandEmpty>
                   <CommandGroup className="max-h-[400px] overflow-y-scroll">
                     {destinationBalances?.map((balances: any) => (
                       <CommandItem
                         key={balances.id}
-                        className={`hover:cursor-pointer ${
+                        className={`hover:cursor-pointer  dark:hover:bg-zinc-700 ${
                           !computeSendType(sourceTokenSelected, balances) &&
                           "opacity-25"
                         }`}
@@ -308,7 +308,7 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                   <div>{formatAddress(addressSelected)}</div>
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="rounded-xl flex p-2 border-none shadow-xl space-x-2 w-[390px] dark:bg-zinc-900 dark:border dark:border-zinc-800 dark:border-solid">
+              <PopoverContent className="rounded-xl flex p-2 border-none shadow-xl space-x-2 w-[390px] dark:bg-zinc-800">
                 <Input
                   className="grow border-none text-xs px-2 bg-transparent"
                   placeholder="Recipient address"
@@ -319,6 +319,7 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                   <Button
                     disabled={!isCustomAddressValid}
                     size="icon"
+                    className="dark:border-zinc-900"
                     variant="outline"
                     onClick={confirmCustomAddress}
                   >
@@ -339,7 +340,7 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
                   {crossChainFee.formatted}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="rounded-xl w-auto text-xs border-none shadow-2xl dark:bg-zinc-900 dark:border dark:border-zinc-800 dark:border-solid">
+              <PopoverContent className="rounded-xl w-auto text-xs border-none shadow-2xl dark:bg-zinc-800">
                 <div className="font-medium text-center">Cross-Chain Fee</div>
                 <div className="text-zinc-400">{crossChainFee?.amount}</div>
               </PopoverContent>
@@ -352,6 +353,7 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
             <div>
               <Button
                 variant="outline"
+                className="dark:border-none dark:bg-zinc-800 dark:hover:bg-zinc-800/50"
                 onClick={handleSend}
                 disabled={sendDisabled}
               >
