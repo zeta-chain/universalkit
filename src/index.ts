@@ -5,6 +5,7 @@ export { StakingRewards } from "./components/StakingRewards";
 export { ConnectBitcoin } from "./components/ConnectBitcoin";
 export { BitcoinWalletProvider } from "./providers/BitcoinWalletProvider";
 export { UniversalKitProvider } from "./providers/UniversalKitProvider";
+export { useBitcoinWallet } from "./providers/BitcoinWalletProvider";
 export * from "./hooks/useEthersSigner";
 export * from "./hooks/useZetaChainClient";
 import "./styles/global.css";

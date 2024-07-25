@@ -131,7 +131,7 @@ export const StakingRewards = ({ client, account }: any) => {
 
   return (
     <div className="grid grid-cols-2 gap-2">
-      <Card className="p-2 flex flex-col gap-4">
+      <Card className="p-2 flex flex-col gap-4 dark:bg-zinc-900 dark:border-none">
         <div className="px-2">
           <div className="text-xs text-muted-foreground">Staked</div>
           {isConnected ? (
@@ -153,7 +153,7 @@ export const StakingRewards = ({ client, account }: any) => {
           )}
         </div>
       </Card>
-      <Card className="p-2 flex flex-col gap-2 justify-between">
+      <Card className="p-2 flex flex-col gap-2 justify-between dark:bg-zinc-900 dark:border-none">
         <div className="px-2">
           <div className="text-xs text-muted-foreground">Rewards</div>
           {isConnected ? (
