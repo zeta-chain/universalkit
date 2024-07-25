@@ -15,7 +15,7 @@ building universal applications easier.
 
 ## Getting Started
 
-Start from a Template:
+Start from a template:
 
 ```
 git clone https://github.com/zeta-chain/template
@@ -23,7 +23,7 @@ cd template/web
 yarn
 ```
 
-Or add UniversalKit to Your Existing App:
+Or add UniversalKit to your existing app:
 
 ```
 yarn add @zetachain/universalkit
