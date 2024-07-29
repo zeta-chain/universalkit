@@ -17,6 +17,22 @@ import Image, { StaticImageData } from "next/image";
 import okxIcon from "./okx.jpeg";
 import xdefiIcon from "./xdefi.jpeg";
 import unisatIcon from "./unisat.jpeg";
+import xverseIcon from "./xverse.jpeg";
+import {
+  Params,
+  Requests,
+  RpcResult,
+  SupportedWallet,
+  defaultAdapters,
+  getSupportedWallets,
+  SatsConnectAdapter,
+  setDefaultProvider,
+  getDefaultProvider,
+  removeDefaultProvider,
+  RpcErrorCode,
+  AddressPurpose,
+  BaseAdapter,
+} from "@sats-connect/core";
 
 const formatAddress = (str: string): string => {
   if (str.length <= 10) {
@@ -130,6 +146,14 @@ const Details = React.memo(({ address, disconnect }: any) => {
 });
 
 const Connect = React.memo(({ connectWallet, loading }: any) => {
+  const connectXverse = async () => {
+    const adapter = new BaseAdapter("XverseProviders.BitcoinProvider");
+    const accounts = await adapter.request("getAccounts", {
+      purposes: [AddressPurpose.Stacks, AddressPurpose.Payment],
+    });
+    console.log(accounts);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -163,6 +187,13 @@ const Connect = React.memo(({ connectWallet, loading }: any) => {
             walletType="unisat"
             icon={unisatIcon}
             label="UniSat"
+            connectWallet={connectWallet}
+            loading={loading}
+          />
+          <WalletButton
+            walletType="xverse"
+            icon={xverseIcon}
+            label="Xverse"
             connectWallet={connectWallet}
             loading={loading}
           />

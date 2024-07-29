@@ -1,22 +1,22 @@
 export default {
   label: "XDEFI Wallet",
   name: "xfi",
-  getAddress: async (wallet: any) => {
+  getAddress: async () => {
+    const wallet = (window as any).xfi;
     wallet.bitcoin.changeNetwork("testnet");
-    return (await wallet?.bitcoin?.getAccounts())[0];
+    const address = (await wallet?.bitcoin?.getAccounts())[0];
+    return { address, publicKey: null };
   },
-  sendTransaction: async (
-    wallet: any,
-    {
-      to,
-      value,
-      memo,
-    }: {
-      to: string;
-      value: number;
-      memo?: string;
-    }
-  ) => {
+  sendTransaction: async ({
+    to,
+    value,
+    memo,
+  }: {
+    to: string;
+    value: number;
+    memo?: string;
+  }) => {
+    const wallet = (window as any).unisat;
     wallet.bitcoin.changeNetwork("testnet");
     const account = (await wallet?.bitcoin?.getAccounts())?.[0];
     if (!account) throw new Error("No account found");
