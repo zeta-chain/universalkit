@@ -2,17 +2,20 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 import unisatWallet from "./unisat";
 import okxWallet from "./okx";
 import xdefiWallet from "./xdefi";
+import xverseWallet from "./xverse";
 
 export const walletTypes = {
   unisat: unisatWallet,
   okx: okxWallet,
   xdefi: xdefiWallet,
+  xverse: xverseWallet,
 };
 
 export type WalletType = keyof typeof walletTypes;
 
 interface WalletContextProps {
   address: string | null;
+  publicKey: string | null;
   loading: { isLoading: boolean; walletType: WalletType | null };
   connectedWalletType: WalletType | null;
   connectWallet: (walletType: WalletType) => void;
@@ -34,6 +37,7 @@ export const BitcoinWalletProvider = ({
   children: ReactNode;
 }) => {
   const [address, setAddress] = useState<string | null>(null);
+  const [publicKey, setPublicKey] = useState<string | null>(null);
   const [loading, setLoading] = useState<{
     isLoading: boolean;
     walletType: WalletType | null;
@@ -44,23 +48,19 @@ export const BitcoinWalletProvider = ({
   const connectWallet = async (walletType: WalletType) => {
     setAddress(null);
     const walletConfig = walletTypes[walletType];
-    const wallet = (window as any)[walletConfig.name];
-    if (wallet) {
-      setLoading({ isLoading: true, walletType });
-      try {
-        const address = await walletConfig.getAddress(wallet);
-        setAddress(address);
-        setConnectedWalletType(walletType);
-      } catch (error) {
-        console.error(`Connection to ${walletConfig.label} failed:`, error);
-        setLoading({ isLoading: false, walletType: null });
-        return;
-      }
+
+    setLoading({ isLoading: true, walletType });
+    try {
+      const { address, publicKey } = await walletConfig.getAddress();
+      setAddress(address);
+      setPublicKey(publicKey);
+      setConnectedWalletType(walletType);
+    } catch (error) {
+      console.error(`Connection to ${walletConfig.label} failed:`, error);
       setLoading({ isLoading: false, walletType: null });
-    } else {
-      console.error("Unsupported wallet type");
-      setLoading({ isLoading: false, walletType: null });
+      return;
     }
+    setLoading({ isLoading: false, walletType: null });
   };
 
   const disconnect = () => {
@@ -79,16 +79,11 @@ export const BitcoinWalletProvider = ({
     }
 
     const walletConfig = walletTypes[connectedWalletType];
-    const wallet = (window as any)[walletConfig.name];
-    if (wallet) {
-      try {
-        const txHash = await walletConfig.sendTransaction(wallet, params);
-        console.log(`Broadcasted a transaction: ${txHash}`);
-      } catch (error) {
-        console.error(`Transaction with ${walletConfig.label} failed:`, error);
-      }
-    } else {
-      console.error("Unsupported wallet type");
+    try {
+      const txHash = await walletConfig.sendTransaction(params);
+      console.log(`Broadcasted a transaction: ${txHash}`);
+    } catch (error) {
+      console.error(`Transaction with ${walletConfig.label} failed:`, error);
     }
   };
 
@@ -96,6 +91,7 @@ export const BitcoinWalletProvider = ({
     <BitcoinWalletContext.Provider
       value={{
         address,
+        publicKey,
         loading,
         connectedWalletType,
         connectWallet,
