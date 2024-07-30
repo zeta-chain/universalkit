@@ -1,9 +1,7 @@
 "use client";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Swap, ConnectBitcoin } from "@/index";
-
-const contract = "0xb459F14260D1dc6484CE56EB0826be317171e91F"; // universal swap contract
+import { Balances, ConnectBitcoin } from "@/index";
 
 const Page = () => {
   return (
@@ -14,7 +12,7 @@ const Page = () => {
       </div>
       <div className="flex justify-center">
         <div className="w-[400px]">
-          <Swap contract={contract} />
+          <Balances />
         </div>
       </div>
     </div>
