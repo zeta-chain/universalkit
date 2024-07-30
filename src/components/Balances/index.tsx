@@ -30,12 +30,10 @@ export const Balances = ({
   balances: balancesProp,
   onBalanceClick = () => {},
 }: BalancesProps) => {
-  const { address, status, chainId } = useAccount();
+  const { address, status } = useAccount();
 
   const { address: bitcoin } = useBitcoinWallet();
-  const { data: walletClient } = useWalletClient({ chainId });
-  const signer = useEthersSigner({ walletClient });
-  const client = useZetaChainClient(config || { network: "testnet", signer });
+  const client = useZetaChainClient(config || { network: "testnet" });
 
   const [balances, setBalances] = useState<Token[]>([]);
   const [error, setError] = useState<string | null>(null);

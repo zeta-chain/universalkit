@@ -1,7 +1,7 @@
 "use client";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { StakingRewards, ConnectBitcoin } from "@/index";
+import { Balances, ConnectBitcoin } from "@/index";
 
 const Page = () => {
   return (
@@ -12,7 +12,7 @@ const Page = () => {
       </div>
       <div className="flex justify-center">
         <div className="w-[400px]">
-          <StakingRewards />
+          <Balances />
         </div>
       </div>
     </div>
