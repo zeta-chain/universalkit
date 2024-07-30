@@ -9,7 +9,7 @@ import type { Token } from "./types";
 const useDestinationAddress = (
   address: `0x${string}` | undefined,
   destinationTokenSelected: Token | null,
-  bitcoinAddress: string | undefined
+  bitcoinAddress: string | null
 ) => {
   const [addressSelected, setAddressSelected] = useState<string>("");
   const [isAddressSelectedValid, setIsAddressSelectedValid] = useState(false);

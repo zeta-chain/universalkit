@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import SwapLayout from "./Layout";
 import useAmountValidation from "./hooks/useAmountValidation";
@@ -12,47 +12,52 @@ import { computeSendType, sendTypeDetails } from "./hooks/computeSendType";
 import useSwapErrors from "./hooks/useSwapErrors";
 import useTokenSelection from "./hooks/useTokenSelection";
 import { formatAddress } from "@/lib/utils";
+import { useAccount, useWalletClient } from "wagmi";
+import { useEthersSigner } from "@/hooks/useEthersSigner";
+import { useZetaChainClient } from "@/hooks/useZetaChainClient";
+import { useBitcoinWallet } from "@/index";
 
 interface SwapProps {
   contract: string;
-  client: any;
-  account: any;
   track?: any;
   balances?: any;
-  bitcoin?: any;
+  config?: any;
 }
 
 export const Swap: React.FC<SwapProps> = ({
   contract,
   track,
   balances: balancesProp,
-  client,
-  account,
-  bitcoin,
+  config,
 }) => {
-  const { address, chainId } = account;
+  const { address, chainId } = useAccount();
+  const { address: bitcoin } = useBitcoinWallet();
+  const { data: walletClient } = useWalletClient({ chainId });
+  const signer = useEthersSigner({ walletClient });
+  const client = useZetaChainClient(config || { network: "testnet", signer });
 
-  const [sourceAmount, setSourceAmount] = useState<string>("");
+  const [sourceAmount, setSourceAmount] = useState("");
   const [isRightChain, setIsRightChain] = useState(true);
   const [sendButtonText, setSendButtonText] = useState("Send tokens");
+  const [balances, setBalances] = useState(balancesProp || []);
+  const [balancesLoading, setBalancesLoading] = useState(true);
 
-  const [balances, setBalances] = useState<any>(balancesProp || []);
-  const [balancesLoading, setBalancesLoading] = useState<boolean>(true);
-
-  const fetchBalances = async () => {
+  const fetchBalances = useCallback(async () => {
     setBalancesLoading(true);
     try {
-      const result = await client.getBalances({
-        evmAddress: address,
-        btcAddress: bitcoin,
-      });
-      setBalances(result);
-    } catch (error) {
+      if (client && address) {
+        const result = await client.getBalances({
+          evmAddress: address,
+          btcAddress: bitcoin,
+        });
+        setBalances(result);
+      }
+    } catch (error: any) {
       console.error("Error fetching local balances:", error);
     } finally {
       setBalancesLoading(false);
     }
-  };
+  }, [client, address, bitcoin]);
 
   useEffect(() => {
     if (balancesProp) {
@@ -61,7 +66,7 @@ export const Swap: React.FC<SwapProps> = ({
     } else if (address) {
       fetchBalances();
     }
-  }, [address, bitcoin]);
+  }, [balancesProp, address, bitcoin, fetchBalances]);
 
   const {
     setSourceToken,
