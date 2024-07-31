@@ -8,17 +8,13 @@ import { roundNumber, hexToBech32Address } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAccount, useWalletClient } from "wagmi";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { useZetaChainClient } from "@/hooks/useZetaChainClient";
+import { useZetaChainClient } from "@/providers/UniversalKitProvider";
 
-interface StakingRewardsProps {
-  config?: any;
-}
-
-export const StakingRewards = ({ config }: StakingRewardsProps) => {
+export const StakingRewards = () => {
   const { address, chainId, isConnected, isDisconnected }: any = useAccount();
   const { data: walletClient } = useWalletClient({ chainId });
   const signer = useEthersSigner({ walletClient });
-  const client = useZetaChainClient(config || { network: "testnet", signer });
+  const client = useZetaChainClient();
 
   const { sendCosmosTx } = useSendCosmosTx(address, client);
 
@@ -26,6 +22,14 @@ export const StakingRewards = ({ config }: StakingRewardsProps) => {
   const [stakingDelegations, setStakingDelegations] = useState([]);
   const [stakingRewards, setStakingRewards] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [apiEndpoint, setApiEndpoint] = useState("");
+
+  useEffect(() => {
+    if (client) {
+      const api = client.getEndpoint("cosmos-http", "zeta_testnet");
+      setApiEndpoint(api);
+    }
+  }, [client]);
 
   const fetchUnbondingDelegations = async (api: string) => {
     try {
@@ -64,28 +68,23 @@ export const StakingRewards = ({ config }: StakingRewardsProps) => {
   };
 
   useEffect(() => {
-    if (client) {
-      const api = client.getEndpoint("cosmos-http", "zeta_testnet");
-    }
-  }, [client]);
-
-  useEffect(() => {
     const fetchData = async () => {
-      console.log("fetching data...");
-      const api = client.getEndpoint("cosmos-http", "zeta_testnet");
-      const [unbondingDelegations, stakingDelegations, stakingRewards] =
-        await Promise.all([
-          fetchUnbondingDelegations(api),
-          fetchStakingDelegations(api),
-          fetchStakingRewards(api),
-        ]);
+      if (apiEndpoint) {
+        console.log("fetching data...");
+        const [unbondingDelegations, stakingDelegations, stakingRewards] =
+          await Promise.all([
+            fetchUnbondingDelegations(apiEndpoint),
+            fetchStakingDelegations(apiEndpoint),
+            fetchStakingRewards(apiEndpoint),
+          ]);
 
-      setUnbondingDelegations(unbondingDelegations);
-      setStakingDelegations(stakingDelegations);
-      setStakingRewards(stakingRewards);
+        setUnbondingDelegations(unbondingDelegations);
+        setStakingDelegations(stakingDelegations);
+        setStakingRewards(stakingRewards);
+      }
     };
-    if (address && client) fetchData();
-  }, [address, client]);
+    if (address && apiEndpoint) fetchData();
+  }, [address, apiEndpoint]);
 
   const stakingAmountTotal = stakingDelegations?.reduce((a: any, c: any) => {
     const amount = BigInt(c.balance.amount);
@@ -121,7 +120,7 @@ export const StakingRewards = ({ config }: StakingRewardsProps) => {
         console.error("Invalid address");
         return;
       }
-      const url = `${api}/cosmos/distribution/v1beta1/delegators/${addr}/rewards`;
+      const url = `${apiEndpoint}/cosmos/distribution/v1beta1/delegators/${addr}/rewards`;
       const response = await fetch(url);
       const stakingRewards = await response.json();
       const validatorAddresses = stakingRewards.rewards.map(

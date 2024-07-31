@@ -12,9 +12,8 @@ import { computeSendType, sendTypeDetails } from "./hooks/computeSendType";
 import useSwapErrors from "./hooks/useSwapErrors";
 import useTokenSelection from "./hooks/useTokenSelection";
 import { formatAddress } from "@/lib/utils";
-import { useAccount, useWalletClient } from "wagmi";
-import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { useZetaChainClient } from "@/hooks/useZetaChainClient";
+import { useAccount } from "wagmi";
+import { useZetaChainClient } from "@/providers/UniversalKitProvider";
 import { useBitcoinWallet } from "@/index";
 
 interface SwapProps {
@@ -32,9 +31,7 @@ export const Swap: React.FC<SwapProps> = ({
 }) => {
   const { address, chainId } = useAccount();
   const { address: bitcoin } = useBitcoinWallet();
-  const { data: walletClient } = useWalletClient({ chainId });
-  const signer = useEthersSigner({ walletClient });
-  const client = useZetaChainClient(config || { network: "testnet", signer });
+  const client = useZetaChainClient();
 
   const [sourceAmount, setSourceAmount] = useState("");
   const [isRightChain, setIsRightChain] = useState(true);

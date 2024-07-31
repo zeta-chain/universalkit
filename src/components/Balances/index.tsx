@@ -10,7 +10,7 @@ import { roundNumber } from "@/lib/utils";
 import { useBitcoinWallet } from "@/index";
 import { useAccount, useWalletClient } from "wagmi";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { useZetaChainClient } from "@/hooks/useZetaChainClient";
+import { useZetaChainClient } from "@/providers/UniversalKitProvider";
 
 interface Token {
   id: string;
@@ -33,7 +33,7 @@ export const Balances = ({
   const { address, status } = useAccount();
 
   const { address: bitcoin } = useBitcoinWallet();
-  const client = useZetaChainClient(config || { network: "testnet" });
+  const client = useZetaChainClient();
 
   const [balances, setBalances] = useState<Token[]>([]);
   const [error, setError] = useState<string | null>(null);
