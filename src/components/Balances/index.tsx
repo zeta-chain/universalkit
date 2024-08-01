@@ -1,12 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RefreshCw } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { roundNumber } from "@/lib/utils";
+import { useBitcoinWallet } from "@/index";
+import { useAccount, useWalletClient } from "wagmi";
+import { useEthersSigner } from "@/hooks/useEthersSigner";
+import { useZetaChainClient } from "@/providers/UniversalKitProvider";
 
 interface Token {
   id: string;
@@ -16,52 +20,55 @@ interface Token {
 }
 
 interface BalancesProps {
-  client: {
-    getBalances: (params: any) => Promise<Token[]>;
-  };
-  account: any;
-  bitcoin?: string | null;
+  config?: any;
+  balances?: any;
   onBalanceClick?: (balance: Token) => void;
 }
 
 export const Balances = ({
-  client,
-  account,
-  bitcoin,
+  config,
+  balances: balancesProp,
   onBalanceClick = () => {},
 }: BalancesProps) => {
+  const { address, status } = useAccount();
+
+  const { address: bitcoin } = useBitcoinWallet();
+  const client = useZetaChainClient();
+
   const [balances, setBalances] = useState<Token[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [selectedChain, setSelectedChain] = useState("");
-  const { address, status } = account;
   const [isReloading, setIsReloading] = useState(false);
 
-  const fetchBalances = async (reloading = false) => {
-    if (reloading) setIsReloading(true);
-    try {
-      const result = await client.getBalances({
-        evmAddress: address,
-        btcAddress: bitcoin,
-      });
-      setBalances(result);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      if (reloading) setIsReloading(false);
-    }
-  };
+  const fetchBalances = useCallback(
+    async (reloading = true) => {
+      if (reloading) setIsReloading(true);
+      try {
+        if (client && address) {
+          const result = await client.getBalances({
+            evmAddress: address,
+            btcAddress: bitcoin,
+          });
+          setBalances(result);
+        }
+      } catch (error: any) {
+        console.error("Error fetching local balances:", error);
+      } finally {
+        setIsReloading(false);
+      }
+    },
+    [client, address, bitcoin]
+  );
 
   useEffect(() => {
-    if (client && address) {
+    if (balancesProp) {
+      setBalances(balancesProp);
+      setIsReloading(false);
+    } else if (address) {
       fetchBalances();
     }
-  }, [client, address]);
-
-  useEffect(() => {
-    setBalances([]);
-    setError(null);
-  }, [address]);
+  }, [balancesProp, address, bitcoin, fetchBalances]);
 
   const uniqueChains = Array.from(
     new Set(balances.map((token: Token) => token.chain_name))
