@@ -10,12 +10,10 @@ import React, {
 import { BitcoinWalletProvider } from "./BitcoinWalletProvider";
 import { WagmiProvider, useAccount, useChainId, useWalletClient } from "wagmi";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { useEthersSigner } from "../hooks/useEthersSigner"; // Import your hook for getting the Ethers signer
+import { useEthersSigner } from "../hooks/useEthersSigner";
 
-// Create a context for ZetaChainClient
 const ZetaChainClientContext = createContext<any>(null);
 
-// Custom hook to use the ZetaChainClient context
 export const useZetaChainClient = () => useContext(ZetaChainClientContext);
 
 const ZetaChainClientProvider = ({
@@ -25,7 +23,7 @@ const ZetaChainClientProvider = ({
   children: ReactNode;
   zetaChainConfig?: any;
 }) => {
-  const { status } = useAccount(); // Use status to track account connection state
+  const { status } = useAccount();
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient({ chainId });
   const signer = useEthersSigner({ walletClient });
@@ -33,7 +31,7 @@ const ZetaChainClientProvider = ({
 
   useEffect(() => {
     const initializeClient = async () => {
-      if (!signer || status !== "connected") return; // Wait until signer is available and connected
+      if (!signer || status !== "connected") return;
 
       try {
         // @ts-ignore
