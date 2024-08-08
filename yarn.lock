@@ -3650,6 +3650,13 @@
   dependencies:
     dotenv "^16.1.4"
 
+"@zetachain/networks@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@zetachain/networks/-/networks-9.0.0.tgz#59eddb02578d784a1d76299ead600dffce87f48c"
+  integrity sha512-vCSkzyiubgYHK0NAJFFCv9gQziGrB+BT9q6DEu29owWxHcGLHPbI4VJ5PbkWH+z8pExVSDe2wKxGN5l2ZAcbGA==
+  dependencies:
+    dotenv "^16.1.4"
+
 "@zetachain/protocol-contracts@8.0.0-rc1":
   version "8.0.0-rc1"
   resolved "https://registry.yarnpkg.com/@zetachain/protocol-contracts/-/protocol-contracts-8.0.0-rc1.tgz#34df589c1b56df77f2695b37bd8a4b79df1787b1"
@@ -3660,10 +3667,10 @@
   resolved "https://registry.yarnpkg.com/@zetachain/protocol-contracts/-/protocol-contracts-7.0.0.tgz#20eb6c62d805d7470408ccdff0e3614684bca174"
   integrity sha512-8JTNFZxVZYmDtAXJIEr+tkakuML12X42Fya4bJ1NkfWiVMkcSej92BSTl/35qYtHdjY7vXy9uMrfXEqfw5rsPw==
 
-"@zetachain/toolkit@^11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@zetachain/toolkit/-/toolkit-11.0.0.tgz#3e6138082b1b8d2cbab7124d28204090c99555a2"
-  integrity sha512-gKQAHOcBPMRBnkn7mhshWTj5JRBJ5Y+TAiM2aCUmPpdEDgcxsnBcKbKsSVziop6QQjRwcjrG+6YM6GLnmLOJ3w==
+"@zetachain/toolkit@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@zetachain/toolkit/-/toolkit-12.0.0.tgz#383b0ea165ca417ede01beb7617aa04aee7d82d4"
+  integrity sha512-3ZIXHaI3OMf7bAp91bryalmq6HEvYFjG8wTNjCGqyBYaK6oQafgH8+zkgrVotm6LmO9EDOZd2E1L4sPOyFS7Mw==
   dependencies:
     "@inquirer/prompts" "^2.1.1"
     "@inquirer/select" "1.1.3"
@@ -3671,7 +3678,7 @@
     "@openzeppelin/contracts" "^4.9.6"
     "@uniswap/v2-periphery" "^1.1.0-beta.0"
     "@zetachain/faucet-cli" "^4.0.1"
-    "@zetachain/networks" "^8.0.0"
+    "@zetachain/networks" "^9.0.0"
     "@zetachain/protocol-contracts" "8.0.0-rc1"
     axios "^1.4.0"
     bech32 "^2.0.0"
