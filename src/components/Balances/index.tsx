@@ -10,7 +10,7 @@ import { roundNumber } from "@/lib/utils";
 import { useBitcoinWallet } from "@/index";
 import { useAccount, useWalletClient } from "wagmi";
 import { useEthersSigner } from "@/hooks/useEthersSigner";
-import { useZetaChainClient } from "@/providers/UniversalKitProvider";
+import { useZetaChainClient, wagmiContextValue } from "@/providers/UniversalKitProvider";
 
 interface Token {
   id: string;
@@ -22,15 +22,18 @@ interface Token {
 interface BalancesProps {
   config?: any;
   balances?: any;
+  wagmiContextValue?: wagmiContextValue;
   onBalanceClick?: (balance: Token) => void;
 }
 
 export const Balances = ({
   config,
   balances: balancesProp,
+  wagmiContextValue,
   onBalanceClick = () => {},
 }: BalancesProps) => {
-  const { address, status } = useAccount();
+  const useWagmiAccount = wagmiContextValue?.useAccount || useAccount;
+  const { address, status } = useWagmiAccount();
 
   const { address: bitcoin } = useBitcoinWallet();
   const client = useZetaChainClient();

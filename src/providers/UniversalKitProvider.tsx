@@ -16,17 +16,32 @@ const ZetaChainClientContext = createContext<any>(null);
 
 export const useZetaChainClient = () => useContext(ZetaChainClientContext);
 
+export interface wagmiContextValue {
+  useAccount: typeof useAccount;
+  useChainId: typeof useChainId;
+  useWalletClient: typeof useWalletClient;
+}
+
+interface ZetaChainClientProviderProps {
+  children: ReactNode;
+  zetaChainConfig?: any;
+  wagmiContextValue?: wagmiContextValue;
+}
+
 const ZetaChainClientProvider = ({
   children,
   zetaChainConfig,
-}: {
-  children: ReactNode;
-  zetaChainConfig?: any;
-}) => {
-  const { status } = useAccount();
-  const chainId = useChainId();
-  const { data: walletClient } = useWalletClient({ chainId });
+  wagmiContextValue
+}: ZetaChainClientProviderProps ) => {  
+  const useWagmiAccount = wagmiContextValue?.useAccount || useAccount;
+  const useWagmiChainId = wagmiContextValue?.useChainId || useChainId;
+  const useWagmiWalletClient = wagmiContextValue?.useWalletClient || useWalletClient;
+
+  const { status } = useWagmiAccount();
+  const chainId = useWagmiChainId();
+  const { data: walletClient } = useWagmiWalletClient({ chainId });
   const signer = useEthersSigner({ walletClient });
+
   const [zetaChainClient, setZetaChainClient] = useState<any>(null);
 
   useEffect(() => {
@@ -57,26 +72,12 @@ const ZetaChainClientProvider = ({
   );
 };
 
-export const UniversalKitProvider = ({
-  children,
-  config,
-  client,
-  zetaChainConfig,
-}: {
-  children: ReactNode;
-  config?: any;
-  client: any;
-  zetaChainConfig?: any;
-}) => {
+export const UniversalKitProvider = ({ children, zetaChainConfig, wagmiContextValue }: ZetaChainClientProviderProps) => {
   return (
-    <WagmiProvider config={config || { autoConnect: true }}>
-      <QueryClientProvider client={client}>
-        <BitcoinWalletProvider>
-          <ZetaChainClientProvider zetaChainConfig={zetaChainConfig}>
-            {children}
-          </ZetaChainClientProvider>
-        </BitcoinWalletProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <BitcoinWalletProvider>
+      <ZetaChainClientProvider zetaChainConfig={zetaChainConfig} wagmiContextValue={wagmiContextValue}>
+        {children}
+      </ZetaChainClientProvider>
+    </BitcoinWalletProvider>
   );
 };
