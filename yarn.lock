@@ -3643,10 +3643,10 @@
     typescript "5.0.4"
     zod "3.22.4"
 
-"@zetachain/networks@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@zetachain/networks/-/networks-8.0.0.tgz#3e838bb6b14e4a8d381f95b4cbc2f1172e851e4e"
-  integrity sha512-I0HhH5qOGW0Jkjq5o5Mi6qGls6ycHnhWjc+r+Ud8u8YW+HU4lEUn4gvulxj+ccHKj3nV/0gEsmNrWRY9ct49nQ==
+"@zetachain/networks@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@zetachain/networks/-/networks-10.0.0.tgz#dd5d14a0870f6b658644aded8c96859f15531089"
+  integrity sha512-FPolaO19oVkSLSPDUA/Hu+8AhG3lDEslRDpLnMzbMbnNSC669Fkah0/TEf+6egrQbAifBRfFLzwWidAGs8oxtA==
   dependencies:
     dotenv "^16.1.4"
 
