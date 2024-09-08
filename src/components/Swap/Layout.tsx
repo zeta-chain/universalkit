@@ -370,9 +370,16 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
               </Button>
             </div>
           ) : (
-            <Button variant="outline" onClick={switchToRightChain}>
+            <Button
+              variant="outline"
+              onClick={switchToRightChain}
+              disabled={isSwitchingChainsPending}
+            >
               {isSwitchingChainsPending ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <span>Switching to {sourceTokenSelected.chain_name}</span>
+                </>
               ) : (
                 "Switch Network"
               )}
