@@ -59,10 +59,10 @@ const WalletButton = React.memo(
         height="75"
         alt={`${label} wallet`}
       />
-      <div className="py-1 font-rounded font-medium text-sm">
+      <div className="py-1 text-sm font-medium font-rounded">
         {loading.isLoading && loading.walletType === walletType ? (
           <div>
-            <LoaderCircle className="w-4 h-4 animate-spin opacity-50" />
+            <LoaderCircle className="w-4 h-4 opacity-50 animate-spin" />
           </div>
         ) : (
           label
@@ -93,7 +93,7 @@ const Details = React.memo(({ address, disconnect }: any) => {
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="mx-2 dark:bg-rainbowkit-dark dark:text-white dark:hover:text-white bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
+          className="mx-2 font-bold transition-all bg-white dark:bg-rainbowkit-dark dark:text-white dark:hover:text-white hover:bg-white font-rounded text-zinc-800 text-md rounded-xl shadow-rainbowkit hover:scale-1025 active:scale-95"
         >
           {formatAddress(address as string)}
         </Button>
@@ -105,7 +105,7 @@ const Details = React.memo(({ address, disconnect }: any) => {
         <div className="flex gap-2 ">
           <Button
             onClick={(e) => copyToClipboard(address as string, e)}
-            className="active:scale-95 dark:text-white rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover bg-white hover:bg-zinc-50 hover:scale-1025 transition-all dark:bg-rainbowkit-profileAction"
+            className="flex-col flex-1 text-sm font-semibold transition-all bg-white active:scale-95 dark:text-white rounded-xl w-fit h-fit font-rounded hover hover:bg-zinc-50 hover:scale-1025 dark:bg-rainbowkit-profileAction"
             variant="ghost"
           >
             {copyStatus ? (
@@ -117,7 +117,7 @@ const Details = React.memo(({ address, disconnect }: any) => {
           </Button>
           <Button
             onClick={disconnect}
-            className="active:scale-95 dark:text-white rounded-xl flex-col flex-1 w-fit h-fit font-semibold font-rounded text-sm hover bg-white hover:bg-zinc-50 hover:scale-1025 transition-all dark:bg-rainbowkit-profileAction"
+            className="flex-col flex-1 text-sm font-semibold transition-all bg-white active:scale-95 dark:text-white rounded-xl w-fit h-fit font-rounded hover hover:bg-zinc-50 hover:scale-1025 dark:bg-rainbowkit-profileAction"
             variant="ghost"
           >
             <LogOut className="w-4 h-4 m-1" strokeWidth="2.5" />
@@ -129,56 +129,85 @@ const Details = React.memo(({ address, disconnect }: any) => {
   );
 });
 
-const Connect = React.memo(({ connectWallet, loading }: any) => {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          className="mx-2 dark:bg-rainbowkit-dark dark:text-foreground dark:hover:text-white bg-white hover:bg-white font-rounded text-zinc-800 font-bold text-md rounded-xl shadow-rainbowkit hover:scale-1025 transition-all active:scale-95"
-        >
-          Connect Bitcoin
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="p-5 sm:max-w-[400px] dark:bg-rainbowkit-secondary">
-        <DialogTitle className="pt-1 dark:text-white font-rounded font-extrabold tracking-normal">
-          Connect a Bitcoin Wallet
-        </DialogTitle>
-        <div className="flex gap-2 justify-between pt-5 px-2 items-start">
-          <WalletButton
-            walletType="okx"
-            icon={okxIcon}
-            label="OKX"
-            connectWallet={connectWallet}
-            loading={loading}
-          />
-          <WalletButton
-            walletType="xdefi"
-            icon={xdefiIcon}
-            label="XDEFI"
-            connectWallet={connectWallet}
-            loading={loading}
-          />
-          <WalletButton
-            walletType="unisat"
-            icon={unisatIcon}
-            label="UniSat"
-            connectWallet={connectWallet}
-            loading={loading}
-          />
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-});
+interface ConnectProps {
+  connectWallet: (walletType: WalletType) => void;
+  loading: {
+    isLoading: boolean;
+    walletType: WalletType | null;
+  };
+  icon?: JSX.Element;
+  className?: string;
+}
+const Connect = React.memo(
+  ({ connectWallet, loading, className,icon }: ConnectProps) => {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            variant={"ghost"}
+            className={
+              className
+                ? className
+                : `mx-2 font-bold transition-all bg-white dark:bg-rainbowkit-dark dark:text-foreground dark:hover:text-white hover:bg-white font-rounded text-zinc-800 text-md rounded-xl shadow-rainbowkit hover:scale-1025 active:scale-95 `
+            }
+          >
+            Connect Bitcoin {icon}
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="p-5 sm:max-w-[400px] dark:bg-rainbowkit-secondary">
+          <DialogTitle className="pt-1 font-extrabold tracking-normal dark:text-white font-rounded">
+            Connect a Bitcoin Wallet
+          </DialogTitle>
+          <div className="flex items-start justify-between gap-2 px-2 pt-5">
+            <WalletButton
+              walletType="okx"
+              icon={okxIcon}
+              label="OKX"
+              connectWallet={connectWallet}
+              loading={loading}
+            />
+            <WalletButton
+              walletType="xdefi"
+              icon={xdefiIcon}
+              label="XDEFI"
+              connectWallet={connectWallet}
+              loading={loading}
+            />
+            <WalletButton
+              walletType="unisat"
+              icon={unisatIcon}
+              label="UniSat"
+              connectWallet={connectWallet}
+              loading={loading}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+);
 
-export const ConnectBitcoin = () => {
+interface ConnectBitcoinProps {
+  className?: string;
+  icon?: JSX.Element;
+}
+export const ConnectBitcoin: React.FC<ConnectBitcoinProps> = ({
+  className,
+  icon
+}) => {
   const { address, loading, connectWallet, disconnect } = useBitcoinWallet();
   const modalComponent = useMemo(() => {
     if (address) {
       return <Details address={address} disconnect={disconnect} />;
     }
-    return <Connect connectWallet={connectWallet} loading={loading} />;
+    return (
+      <Connect
+        connectWallet={connectWallet}
+        icon={icon}
+        loading={loading}
+        className={className}
+      />
+    );
   }, [address, loading, connectWallet, disconnect]);
 
   return <div>{modalComponent}</div>;
