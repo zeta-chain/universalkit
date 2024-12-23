@@ -12,7 +12,7 @@ import { computeSendType, sendTypeDetails } from "./hooks/computeSendType";
 import useSwapErrors from "./hooks/useSwapErrors";
 import useTokenSelection from "./hooks/useTokenSelection";
 import { formatAddress } from "@/lib/utils";
-import { useAccount } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { useZetaChainClient } from "@/providers/UniversalKitProvider";
 import { useBitcoinWallet } from "@/index";
 
@@ -30,6 +30,7 @@ export const Swap: React.FC<SwapProps> = ({
   config,
 }) => {
   const { address, chainId } = useAccount();
+  const { switchChain, isPending: isSwitchingChainsPending } = useSwitchChain();
   const { address: bitcoin } = useBitcoinWallet();
   const client = useZetaChainClient();
 
@@ -79,6 +80,11 @@ export const Swap: React.FC<SwapProps> = ({
     destinationTokenSelected,
     client
   );
+
+  const switchToRightChain = () => {
+    sourceTokenSelected &&
+      switchChain({ chainId: Number(sourceTokenSelected.chain_id) });
+  };
 
   const { isAmountGTFee, isAmountLTBalance } = useAmountValidation(
     sourceTokenSelected,
@@ -195,6 +201,8 @@ export const Swap: React.FC<SwapProps> = ({
         sendDisabled={sendDisabled}
         isSending={isSending}
         sendButtonText={sendButtonText}
+        switchToRightChain={switchToRightChain}
+        isSwitchingChainsPending={isSwitchingChainsPending}
       />
     </div>
   );

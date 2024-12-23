@@ -62,6 +62,8 @@ interface SwapLayoutProps {
   sendDisabled: boolean;
   isSending: boolean;
   sendButtonText: string;
+  switchToRightChain: () => any;
+  isSwitchingChainsPending: boolean;
 }
 
 const SwapLayout: React.FC<SwapLayoutProps> = ({
@@ -93,6 +95,8 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
   sendDisabled,
   isSending,
   sendButtonText,
+  switchToRightChain,
+  isSwitchingChainsPending,
 }) => {
   const [sourceTokenOpen, setSourceTokenOpen] = useState(false);
   const [destinationTokenOpen, setDestinationTokenOpen] = useState(false);
@@ -368,17 +372,17 @@ const SwapLayout: React.FC<SwapLayoutProps> = ({
           ) : (
             <Button
               variant="outline"
-              disabled={true}
-              // disabled={
-              //   isLoading && pendingChainId === sourceTokenSelected.chain_id
-              // }
+              onClick={switchToRightChain}
+              disabled={isSwitchingChainsPending}
             >
-              {/* {isLoading && pendingChainId === sourceTokenSelected.chain_id ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              {isSwitchingChainsPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <span>Switching to {sourceTokenSelected.chain_name}</span>
+                </>
               ) : (
-                <RefreshCcw className="h-4 w-4 mr-2" />
-              )} */}
-              Switch Network
+                "Switch Network"
+              )}
             </Button>
           )}
         </div>
