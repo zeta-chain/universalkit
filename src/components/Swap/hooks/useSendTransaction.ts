@@ -462,19 +462,25 @@ const useSendTransaction = (
     }
     const d = destinationTokenSelected;
     const zrc20 = d.coin_type === "ZRC20" ? d.contract : d.zrc20;
-    const params = {
-      chain: from,
+    let tx;
+    tx = await client.evmDepositAndCall({
       amount: sourceAmount,
-      recipient: omnichainSwapContractAddress,
-      message: [
-        ["address", "bytes", "bool"],
-        [zrc20, recipient, withdraw],
-      ],
       erc20: sourceTokenSelected.contract,
-    };
-    console.log("swap", params);
-    const tx = await client.deposit(params);
-
+      receiver: omnichainSwapContractAddress,
+      revertOptions: {
+        callOnRevert: false,
+        onRevertGasLimit: 7000000,
+        revertAddress: "0x0000000000000000000000000000000000000000",
+        revertMessage: "0x",
+      },
+      txOptions: {
+        gasLimit: 7000000,
+        gasPrice: ethers.BigNumber.from("10000000000"),
+      },
+      types: ["address", "bytes", "bool"],
+      values: [zrc20, recipient, withdraw.toString()],
+    });
+    console.log(tx);
     if (tx && track) {
       track({
         hash: tx.hash,
