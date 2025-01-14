@@ -181,12 +181,21 @@ const useSendTransaction = (
     }
     const from = sourceTokenSelected.chain_name;
     const to = destinationTokenSelected.chain_name;
-    const btc = bitcoinAddress;
     const token = sourceTokenSelected.symbol;
-    const tx = await client.deposit({
-      chain: from,
+    const tx = await client.zetachainWithdraw({
       amount: sourceAmount,
-      recipient: addressSelected,
+      zrc20: sourceTokenSelected.contract,
+      receiver: bitcoinAddress,
+      revertOptions: {
+        callOnRevert: false,
+        onRevertGasLimit: 7000000,
+        revertAddress: "0x0000000000000000000000000000000000000000",
+        revertMessage: "0x",
+      },
+      txOptions: {
+        gasLimit: 7000000,
+        gasPrice: ethers.BigNumber.from("10000000000"),
+      },
     });
     if (track) {
       track({
@@ -253,10 +262,20 @@ const useSendTransaction = (
       console.error("ZRC-20 address not found");
       return;
     }
-    const tx = await client.withdraw({
+    const tx = await client.zetachainWithdraw({
       amount: sourceAmount,
       zrc20,
-      recipient: addressSelected,
+      receiver: addressSelected,
+      revertOptions: {
+        callOnRevert: false,
+        onRevertGasLimit: 7000000,
+        revertAddress: "0x0000000000000000000000000000000000000000",
+        revertMessage: "0x",
+      },
+      txOptions: {
+        gasLimit: 7000000,
+        gasPrice: ethers.BigNumber.from("10000000000"),
+      },
     });
     const token = sourceTokenSelected.symbol;
     const from = sourceTokenSelected.chain_name;
@@ -277,10 +296,20 @@ const useSendTransaction = (
     const from = sourceTokenSelected.chain_name;
     const to = destinationTokenSelected.chain_name;
     const token = sourceTokenSelected.symbol;
-    const tx = await client.deposit({
-      chain: from,
+    const tx = await client.evmDeposit({
       amount: sourceAmount,
-      recipient: addressSelected,
+      erc20: "",
+      receiver: addressSelected,
+      revertOptions: {
+        callOnRevert: false,
+        onRevertGasLimit: 7000000,
+        revertAddress: "0x0000000000000000000000000000000000000000",
+        revertMessage: "0x",
+      },
+      txOptions: {
+        gasLimit: 7000000,
+        gasPrice: ethers.BigNumber.from("50000000000"),
+      },
     });
     if (track) {
       track({
@@ -372,47 +401,31 @@ const useSendTransaction = (
     if (!sourceTokenSelected || !destinationTokenSelected) {
       return;
     }
-    const custodyAddress = getAddress(
-      "erc20Custody",
-      sourceTokenSelected.chain_name as ParamChainName
-    );
-    const custodyContract = new ethers.Contract(
-      custodyAddress as string,
-      ERC20Custody.abi,
-      client.signer
-    );
-    const assetAddress = sourceTokenSelected.contract;
-    const amount = ethers.utils.parseUnits(
-      sourceAmount,
-      sourceTokenSelected.decimals
-    );
-    try {
-      const contract = new ethers.Contract(
-        assetAddress as string,
-        ERC20_ABI.abi,
-        client.signer
-      );
-      await (await contract.approve(custodyAddress, amount)).wait();
-      const tx = await custodyContract.deposit(
-        addressSelected,
-        assetAddress,
-        amount,
-        "0x"
-      );
-      await tx.wait();
-      const token = sourceTokenSelected.symbol;
-      const from = sourceTokenSelected.chain_name;
-      const dest = destinationTokenSelected.chain_name;
-      if (track) {
-        track({
-          hash: tx.hash,
-          desc: `Sent ${sourceAmount} ${token} from ${from} to ${dest}`,
-        });
-      }
-      console.log(tx.hash);
-    } catch (error) {
-      console.error("Error during deposit: ", error);
+    const from = sourceTokenSelected.chain_name;
+    const to = destinationTokenSelected.chain_name;
+    const token = sourceTokenSelected.symbol;
+    const tx = await client.evmDeposit({
+      amount: sourceAmount,
+      erc20: sourceTokenSelected.contract,
+      receiver: addressSelected,
+      revertOptions: {
+        callOnRevert: false,
+        onRevertGasLimit: 7000000,
+        revertAddress: "0x0000000000000000000000000000000000000000",
+        revertMessage: "0x",
+      },
+      txOptions: {
+        gasLimit: 7000000,
+        gasPrice: ethers.BigNumber.from("50000000000"),
+      },
+    });
+    if (track) {
+      track({
+        hash: tx.hash,
+        desc: `Sent ${sourceAmount} ${token} from ${from} to ${to}`,
+      });
     }
+    console.log(tx.hash);
   };
 
   m.transferBTC = async () => {
@@ -449,19 +462,25 @@ const useSendTransaction = (
     }
     const d = destinationTokenSelected;
     const zrc20 = d.coin_type === "ZRC20" ? d.contract : d.zrc20;
-    const params = {
-      chain: from,
+    let tx;
+    tx = await client.evmDepositAndCall({
       amount: sourceAmount,
-      recipient: omnichainSwapContractAddress,
-      message: [
-        ["address", "bytes", "bool"],
-        [zrc20, recipient, withdraw],
-      ],
       erc20: sourceTokenSelected.contract,
-    };
-    console.log("swap", params);
-    const tx = await client.deposit(params);
-
+      receiver: omnichainSwapContractAddress,
+      revertOptions: {
+        callOnRevert: false,
+        onRevertGasLimit: 7000000,
+        revertAddress: "0x0000000000000000000000000000000000000000",
+        revertMessage: "0x",
+      },
+      txOptions: {
+        gasLimit: 7000000,
+        gasPrice: ethers.BigNumber.from("10000000000"),
+      },
+      types: ["address", "bytes", "bool"],
+      values: [zrc20, recipient, withdraw.toString()],
+    });
+    console.log(tx);
     if (tx && track) {
       track({
         hash: tx.hash,
