@@ -34,7 +34,7 @@
     "@web3-name-sdk/core": "^0.2.0",
     "@zetachain/protocol-contracts": "^9.0.0",
     "@zetachain/networks": "^10.0.0",
-    "@zetachain/toolkit": "13.0.0-rc10",
+    "@zetachain/toolkit": "13.0.0-rc11",
     "autoprefixer": "^10.4.19",
     "bech32": "^2.0.0",
     "class-variance-authority": "^0.7.0",
