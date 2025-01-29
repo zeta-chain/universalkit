@@ -3647,10 +3647,10 @@
     typescript "5.5.4"
     zod "3.22.4"
 
-"@zetachain/networks@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@zetachain/networks/-/networks-10.0.0.tgz#dd5d14a0870f6b658644aded8c96859f15531089"
-  integrity sha512-FPolaO19oVkSLSPDUA/Hu+8AhG3lDEslRDpLnMzbMbnNSC669Fkah0/TEf+6egrQbAifBRfFLzwWidAGs8oxtA==
+"@zetachain/networks@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@zetachain/networks/-/networks-11.0.0.tgz#b78a33bace581ac30fa4f09173ff526c0ec4f864"
+  integrity sha512-lrL4TrAbAcNgb5fGisHvkOtSj/qK2F3+gpi7wwlN4ZAwLNDr7x+aR4TfGLUG3vRBj//posCDKlymbz9vwRot5A==
   dependencies:
     dotenv "^16.1.4"
 
