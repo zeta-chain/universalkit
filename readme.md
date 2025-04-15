@@ -19,7 +19,7 @@ Start from a template:
 
 ```
 git clone https://github.com/zeta-chain/template
-cd template/web
+cd template
 yarn
 ```
 
