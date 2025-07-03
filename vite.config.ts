@@ -31,7 +31,12 @@ export default defineConfig({
       fileName: (format) => `index.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: [
+        "react",
+        "react-dom",
+        "@zetachain/toolkit",
+        "@zetachain/toolkit/client",
+      ],
       output: {
         globals: {
           react: "React",
