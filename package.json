@@ -4,7 +4,7 @@
   "version": "version-set-on-publish",
   "scripts": {
     "dev": "next dev",
-    "build": "npx vite build",
+    "build": "next build",
     "start": "next start"
   },
   "files": [
